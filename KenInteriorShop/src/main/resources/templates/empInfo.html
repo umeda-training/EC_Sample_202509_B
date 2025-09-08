@@ -1,19 +1,40 @@
 <!DOCTYPE html>
+<!--
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>従業員管理画面</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
 	<div id="wrapper">
 		<header>
-		
+			
 		</header>
 		<main>
+			<div id="login-info-area">
+				<span th:text="|${loginForm.loginId} でログイン中|" class="info"></span>
+			
+		<div class="form-row">
+		<label for="empName">名前</label>
+		<input th:field="*{empName}"th:value="${empName}">
+		<label for="furigana">フリガナ</label>
+		<input th:field="*{furigana}" th:value="${furigana}">
+		<label for="empId">従業員ID</label>
+		<input th:field="*{empId}" th:value="${empId}">
+		<label for="password">パスワード</label>
+		<input th:field="*{password}" th:value="${password}">
+		
+		<input type="submit" name="save" value="保存" class="btn">
+		<input type="submit" name="delete" value="退会" class="btn">
+		</div>
+		
 		
 		</main>
-		<footer></footer>
+		<footer>
+			
+		</footer>
 	</div>
 </body>
 </html>
+-->
