@@ -1,20 +1,21 @@
 package jp.ken.interiorShop.domain.entity;
 
 
+import java.time.LocalDateTime;
+
 import lombok.Data;
 
 @Data
 public class UserOrderEntity {
-	
-	//カート情報
-	//private List<ItemEntity> cartItems;
 
-	//クレジットカード情報
-	
+	private int orderId;           // 注文ID
+	private int userId;            // 顧客ID
+	private String userName; 
 
-	//お届け先の顧客情報
-	private String userAddress;
-	
-	private int userPost;
+	private int total;              // 合計金額
+	private LocalDateTime orderDate; // 注文日
+
+    private int userPost;       // 郵便番号
+    private String userAddress;    // 住所
 
 }
