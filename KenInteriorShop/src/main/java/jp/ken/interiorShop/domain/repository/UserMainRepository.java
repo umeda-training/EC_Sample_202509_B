@@ -1,5 +1,8 @@
 package jp.ken.interiorShop.domain.repository;
 
-public class UserMainRepository {
+import org.springframework.stereotype.Repository;
 
+@Repository
+public class UserMainRepository {
+	
 }

@@ -20,3 +20,21 @@ public class UserOrderMapper implements RowMapper<UserOrderEntity>{
 		return userOrderEntity;
 	}	
 }
+package jp.ken.interiorShop.domain.mapper;
+
+
+public class UserOrderMapper{
+	
+}
+package jp.ken.interiorShop.domain.mapper;
+
+
+public class UserOrderMapper{
+	
+}
+package jp.ken.interiorShop.domain.mapper;
+
+
+public class UserOrderMapper{
+	
+}
