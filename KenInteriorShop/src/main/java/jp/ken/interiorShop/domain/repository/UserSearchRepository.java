@@ -1,7 +1,5 @@
 package jp.ken.interiorShop.domain.repository;
 
-import java.util.List;
-
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -22,7 +20,31 @@ public class UserSearchRepository {
 	}
 	
 	// 会員情報検索メソッド(ログイン処理)
-	public List<UserInfoEntity> getUser(String mail, String pass) throws Exception {
+	public UserInfoEntity getUser(String mail, String pass) throws Exception {
+		StringBuilder sb = createCommonSQL();
+		sb.append(" WHERE");
+		sb.append(" user_mail = ?");
+		sb.append(" AND");
+		sb.append(" user_password = ?");
+		String sql = sb.toString();
+		
+		return jdbcTemplate.queryForObject(sql, userInfoMapper, mail, pass);
+		
+	}
+	
+	// 会員情報検索メソッド(メールアドレス重複確認)
+	public UserInfoEntity getUserByMail(String mail) throws Exception {
+		StringBuilder sb = createCommonSQL();
+		sb.append(" WHERE");
+		sb.append(" user_mail = ?");
+		String sql = sb.toString();
+		
+		return jdbcTemplate.queryForObject(sql, userInfoMapper, mail);
+		
+	}
+	
+	// 検索SQL共通部分作成
+	private StringBuilder createCommonSQL() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
 		sb.append(" user_id,");
@@ -37,14 +59,8 @@ public class UserSearchRepository {
 		sb.append(" user_password");
 		sb.append(" FROM");
 		sb.append(" users");
-		sb.append(" WHERE");
-		sb.append(" user_mail = ?");
-		sb.append(" AND");
-		sb.append(" user_password = ?");
-		String sql = sb.toString();
 		
-		return jdbcTemplate.query(sql, userInfoMapper, mail, pass);
-		
+		return sb;
 	}
 
 }

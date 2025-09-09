@@ -11,12 +11,15 @@ import jp.ken.interiorShop.presentation.formmodel.ListDataFormModel;
 
 /*
  * 作成 : 西村
+ * 新規会員登録画面
  */
 @Controller
 public class UserAddController {
 	// 生年月日 リスト情報作成メソッド
 	private List<ListDataFormModel> getNumberList(int start, int end) {
 		List<ListDataFormModel> numList = new ArrayList<ListDataFormModel>();
+		// 初期表示の「---」を挿入
+		numList.add(new ListDataFormModel("", "---"));
 		for(int i=start; i<=end; i++) {
 			numList.add(new ListDataFormModel(Integer.toString(i), Integer.toString(i)));
 		}
@@ -43,26 +46,26 @@ public class UserAddController {
 		case "woman":
 			return "女";
 		case "no-answer":
-			return "その他";
+			return "未回答";
 		default:
-			return "";
+			return "---";
 		}
 	}
 	
 //	@GetMapping(value="/user/add")
 //	public String toAdd(Model model) {
-//		EmployeeForm userAddForm = new EmployeeForm();
+//		UserAddFormModel userAddForm = new UserAddFormModel();
 //		// 初期選択
-//		employeeForm.setGender("man");			// 性別：男
-//		employeeForm.setBirthYear("1970");		// 生年月日(年)：1970
-//		employeeForm.setEmpYear("2000");		// 入社日(年)：2000
-//		employeeForm.setEmpMonth("4");			// 入社日(月)：4
-//		employeeForm.setPost("0");				// 部署：開発部
-//		model.addAttribute("employeeForm", employeeForm);
+//		userAddForm.setGender("");			// 性別：未選択
+//		userAddForm.setBirthYear("1970");		// 生年月日(年)：1970
+//		userAddForm.setEmpYear("2000");		// 入社日(年)：2000
+//		userAddForm.setEmpMonth("4");			// 入社日(月)：4
+//		userAddForm.setPost("0");				// 部署：開発部
+//		model.addAttribute("userAddForm", userAddForm);
 //
-//		setModel(employeeForm, model);
+//		setModel(userAddForm, model);
 //		
-//		return "employeeRegistration";
+//		return "userAdd";
 //	}
 
 }

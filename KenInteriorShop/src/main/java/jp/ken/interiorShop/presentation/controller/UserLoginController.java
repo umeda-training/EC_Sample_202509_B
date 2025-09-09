@@ -1,7 +1,5 @@
 package jp.ken.interiorShop.presentation.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -64,12 +62,29 @@ public class UserLoginController {
 			return "userAdd";
 		}
 
-		// バリデーションチェック(未入力チェック)
+		// バリデーションチェック
 		if(result.hasErrors()) {
 			return "userLogin";
 		} else {
-			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
-			
+//			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
+			UserLoginFormModel form = userSearchService.getLogin(userLoginForm);
+			if(form == null) {
+				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
+				return "userLogin";
+			}
+			//セッションオブジェクトに格納
+			userLoginForm.setLoginId(form.getLoginId());
+			userLoginForm.setLoginName(form.getLoginName());
+			userLoginForm.setLoginKana(form.getLoginKana());
+			userLoginForm.setLoginGender(form.getLoginGender());
+			userLoginForm.setLoginBirth(form.getLoginBirth());
+			userLoginForm.setLoginPost(form.getLoginPost());
+			userLoginForm.setLoginAddress(form.getLoginAddress());
+			userLoginForm.setLoginPhone(form.getLoginPhone());
+			userLoginForm.setLoginMail(form.getLoginMail());
+			userLoginForm.setLoginPass(form.getLoginPass());
+			model.addAttribute("UserLoginForm", userLoginForm);
+/*
 			if(formList == null || formList.isEmpty()) {
 				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
 				return "userLogin";
@@ -86,6 +101,7 @@ public class UserLoginController {
 			userLoginForm.setLoginMail(formList.getFirst().getLoginMail());
 			userLoginForm.setLoginPass(formList.getFirst().getLoginPass());
 			model.addAttribute("UserLoginForm", userLoginForm);
+*/
 		}
 		
 		// ログイン成功時、遷移元の画面に遷移
