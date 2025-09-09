@@ -3,6 +3,11 @@ package jp.ken.interiorShop.presentation.EmpFormModel;
 import java.io.Serializable;
 import java.sql.Date;
 
+import lombok.Data;
+
+
+//担当：濱邊
+@Data
 public class EmpOrderFormModel implements Serializable {
 	//注文ID
 	private int order_Id;
