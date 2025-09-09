@@ -15,6 +15,9 @@ import org.springframework.web.bind.support.SessionStatus;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 import jp.ken.interiorShop.service.UserLoginService;
 
+/*
+ * 作成 : nishimura
+ */
 @Controller
 @SessionAttributes("UserLoginForm")
 public class UserLoginController {
@@ -56,7 +59,7 @@ public class UserLoginController {
 			BindingResult result, Model model) throws Exception {
 		String btn = (String) model.getAttribute("btn");
 		// 新規会員登録 ボタン押下時
-		if(btn == "新規会員登録") {
+		if(btn != null) {
 			return "userAdd";
 		}
 

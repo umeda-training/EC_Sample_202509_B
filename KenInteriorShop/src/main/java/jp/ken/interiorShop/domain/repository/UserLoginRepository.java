@@ -9,6 +9,10 @@ import org.springframework.stereotype.Repository;
 import jp.ken.interiorShop.domain.entity.UserLoginEntity;
 import jp.ken.interiorShop.domain.mapper.UserLoginMapper;
 
+
+/*
+ * 作成 : nishimura
+ */
 @Repository
 public class UserLoginRepository {
 

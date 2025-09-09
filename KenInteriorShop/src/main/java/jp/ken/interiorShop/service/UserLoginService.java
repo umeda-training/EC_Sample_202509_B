@@ -10,6 +10,9 @@ import jp.ken.interiorShop.domain.entity.UserLoginEntity;
 import jp.ken.interiorShop.domain.repository.UserLoginRepository;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 
+/*
+ * 作成 : nishimura
+ */
 @Service
 public class UserLoginService {
 

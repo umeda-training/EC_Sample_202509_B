@@ -7,6 +7,9 @@ import org.springframework.jdbc.core.RowMapper;
 
 import jp.ken.interiorShop.domain.entity.UserLoginEntity;
 
+/*
+ * 作成 : nishimura
+ */
 public class UserLoginMapper implements RowMapper<UserLoginEntity>  {
 
 	@Override

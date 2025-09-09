@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<!-- 担当 : nishimura -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -30,6 +31,7 @@
 					</div>
 					<div class="form-row">
 						<input type="submit" value="新規会員登録" class="btn">
+						<input type="hidden" th:field="*{btn}" th:value="${btn}">
 					</div>
 				</form>
 				<a th:href="@{/emp/login}"><small>従業員ログインページ</small></a><br>

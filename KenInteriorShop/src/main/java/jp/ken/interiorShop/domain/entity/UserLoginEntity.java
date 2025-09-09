@@ -4,6 +4,9 @@ import java.sql.Date;
 
 import lombok.Data;
 
+/*
+ * 作成 : nishimura
+ */
 @Data
 public class UserLoginEntity {
 

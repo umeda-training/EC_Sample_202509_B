@@ -7,6 +7,9 @@ import jp.ken.interiorShop.common.validator.groups.ValidGroup1;
 import jp.ken.interiorShop.common.validator.groups.ValidGroup2;
 import lombok.Data;
 
+/*
+ * 作成 : nishimura
+ */
 @Data
 public class UserLoginFormModel {
 
@@ -36,12 +39,12 @@ public class UserLoginFormModel {
 
 	// メールアドレス
 	@NotEmpty(message = "メールアドレスは必須です", groups = ValidGroup1.class)
-	@Email(message = "メールアドレスの形式ではありません", groups = ValidGroup2.class)
+	@Email(message = "メールアドレスの形式が無効です", groups = ValidGroup2.class)
 	private String loginMail;
 	
 	// パスワード
 	@NotEmpty(message = "パスワードは必須です", groups = ValidGroup1.class)
-	@Pattern(regexp = "^[a-zA-Z0-9]{8}$", message = "パスワードは半角英数字8桁で入力してください"
+	@Pattern(regexp = "^[a-zA-Z0-9]{8}$", message = "パスワードは英数字8桁を入力してください"
 		, groups = ValidGroup2.class)
 	private String loginPass;
 }
