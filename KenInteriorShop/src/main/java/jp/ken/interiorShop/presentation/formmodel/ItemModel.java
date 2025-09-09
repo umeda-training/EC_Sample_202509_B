@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import lombok.Data;
 
+//担当者：竹内
 
 /*
  * 商品モデルクラス 
@@ -14,17 +15,24 @@ import lombok.Data;
 @Data
 public class ItemModel implements Serializable {
 	
-	private String item_cd;       //商品コード兼画像ファイル名
+	//商品コード兼画像ファイル名
+	private String item_cd;       
 	
+	//商品名
 	private String item_name;
 	
+	//在庫数
 	private int item_stock;
 	
+	//商品単価
 	private int item_price;
 	
+	//商品カテゴリ
 	private String item_category;
 	
+	//商品情報
 	private String item_info;
 	
+	//発売日
 	private Date release_date;
 }
