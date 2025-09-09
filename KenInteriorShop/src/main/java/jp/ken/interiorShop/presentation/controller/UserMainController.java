@@ -1,5 +1,6 @@
 package jp.ken.interiorShop.presentation.controller;
 
+import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class UserMainController {
 	 */
 	
 	@GetMapping(value = "/user/main")
-	public String toUserMain(Model model) {
+	public String toUserMain(Model model) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "メインメニュー");
 		
@@ -46,7 +47,7 @@ public class UserMainController {
 		//リストの作成
 		List<ItemModel> item_list = new ArrayList<ItemModel>();
 		//サービスから商品を全件取得
-		//item_list = userMainService.search();
+		item_list = userMainService.search();
 		//商品リストをモデルに登録
 		model.addAttribute("item_list", item_list);
 		
