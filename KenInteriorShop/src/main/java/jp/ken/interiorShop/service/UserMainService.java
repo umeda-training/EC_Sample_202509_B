@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import jp.ken.interiorShop.domain.repository.UserMainRepository;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 
+//担当者：竹内
 @Service
 public class UserMainService {
 	 

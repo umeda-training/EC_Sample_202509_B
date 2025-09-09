@@ -15,6 +15,7 @@ import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 import jp.ken.interiorShop.presentation.formmodel.UserMainFormModel;
 import jp.ken.interiorShop.service.UserMainService;
 
+//担当者：竹内
 public class UserMainController {
 	
 	private UserMainService userMainService;

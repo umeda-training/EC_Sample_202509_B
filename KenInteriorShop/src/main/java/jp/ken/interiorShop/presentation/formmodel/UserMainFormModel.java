@@ -4,6 +4,8 @@ import java.io.Serializable;
 
 import lombok.Data;
 
+//担当者：竹内
+
 /*
  *フォームクラス 
  * メインページから検索情報を格納

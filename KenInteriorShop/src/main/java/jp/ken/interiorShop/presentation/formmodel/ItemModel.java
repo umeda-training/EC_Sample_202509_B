@@ -5,6 +5,7 @@ import java.sql.Date;
 
 import lombok.Data;
 
+//担当者：竹内
 
 /*
  * 商品モデルクラス 
