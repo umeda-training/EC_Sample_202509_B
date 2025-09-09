@@ -37,21 +37,22 @@ public class UserMainRepository {
 	public List<ItemEntity> getItemList(LocalDate date) throws SQLException{
 		
 		//引数の日にちを変換
-		String searchDate = date.toString();
+		//String searchDate = date.toString();
 		//共通のSQL分の作成
 		StringBuilder sb = createCommonSQL();
 		
 		//全件用の追加文
-		sb.append(" WHERE");
+		//sb.append(" WHERE");
 		
 		//既に発売されている条件(パラメータは引数の日にち) 
-		sb.append(" release_date <= ?");
+		//sb.append(" release_date <= ?");
 		
 		//SQL文の統合
 		String sql = sb.toString();
 		
 		//パラメータに本日の日にち挿入し、SQL分実行
-		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, searchDate); 
+		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper);
+		//List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, date); 
 		
 		return itemList;
 	}
@@ -71,12 +72,13 @@ public class UserMainRepository {
 		//共通部分追加
 		sb.append("SELECT");
 		sb.append(" item_cd");
+		/*sb.append(" item_cd");
 		sb.append(", item_name");
 		sb.append(", item_stock");
 		sb.append(", item_price");
 		sb.append(", item_category");
 		sb.append(", item_info");
-		sb.append(", release_date");
+		sb.append(", release_date");*/
 		sb.append(" FROM");
 		sb.append(" m_items");
 		
