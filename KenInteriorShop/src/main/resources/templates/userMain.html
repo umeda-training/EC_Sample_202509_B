@@ -11,10 +11,30 @@
 <body>
 	<div id="wrapper">
 		<header>
-		
+			<h1>メインメニュー</h1>
 		</header>
 		<main>
-		
+			<div id="main-section">
+				
+				<form th:action="@{/user/main}" th:object="${form_list}" method="post">
+					<div id="search">
+						
+					</div>
+					
+					<div id="category">
+						
+					</div>
+				</form>
+				
+				<div id="item-list">
+					
+				</div>
+				
+				<div id="next-item">
+					
+				</div>
+				
+			</div>
 		</main>
 		<footer></footer>
 	</div>
