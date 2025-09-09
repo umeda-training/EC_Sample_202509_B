@@ -9,6 +9,9 @@ import org.springframework.stereotype.Controller;
 
 import jp.ken.interiorShop.presentation.formmodel.ListDataFormModel;
 
+/*
+ * 作成 : 西村
+ */
 @Controller
 public class UserAddController {
 	// 生年月日 リスト情報作成メソッド
@@ -22,15 +25,44 @@ public class UserAddController {
 	
 	// 性別 リスト情報作成メソッド
 	private Map<String, String> getGenderMap() {
-		Map<String, String> postMap = new LinkedHashMap<String, String>();
+		Map<String, String> genderMap = new LinkedHashMap<String, String>();
 		
-		postMap.put("0", "開発部");
-		postMap.put("1", "人事部");
-		postMap.put("2", "営業部");
-		postMap.put("3", "総務部");
-		postMap.put("4", "経理部");
+		genderMap.put("0", "---");
+		genderMap.put("man", "男");
+		genderMap.put("woman", "女");
+		genderMap.put("no-answer", "未回答");
 		
-		return postMap;
+		return genderMap;
 	}
+	
+	// 性別 選択メソッド
+	private String setGender(String gender) {
+		switch(gender) {
+		case "man":
+			return "男";
+		case "woman":
+			return "女";
+		case "no-answer":
+			return "その他";
+		default:
+			return "";
+		}
+	}
+	
+//	@GetMapping(value="/user/add")
+//	public String toAdd(Model model) {
+//		EmployeeForm userAddForm = new EmployeeForm();
+//		// 初期選択
+//		employeeForm.setGender("man");			// 性別：男
+//		employeeForm.setBirthYear("1970");		// 生年月日(年)：1970
+//		employeeForm.setEmpYear("2000");		// 入社日(年)：2000
+//		employeeForm.setEmpMonth("4");			// 入社日(月)：4
+//		employeeForm.setPost("0");				// 部署：開発部
+//		model.addAttribute("employeeForm", employeeForm);
+//
+//		setModel(employeeForm, model);
+//		
+//		return "employeeRegistration";
+//	}
 
 }

@@ -6,25 +6,24 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import jp.ken.interiorShop.domain.entity.UserLoginEntity;
-import jp.ken.interiorShop.domain.mapper.UserLoginMapper;
-
+import jp.ken.interiorShop.domain.entity.UserInfoEntity;
+import jp.ken.interiorShop.domain.mapper.UserInfoMapper;
 
 /*
- * 作成 : nishimura
+ * 作成 : 西村
  */
 @Repository
-public class UserLoginRepository {
+public class UserSearchRepository {
 
-	private RowMapper<UserLoginEntity> userLoginMapper = new UserLoginMapper();
+	private RowMapper<UserInfoEntity> userInfoMapper = new UserInfoMapper();
 	private JdbcTemplate jdbcTemplate;
 	
-	public UserLoginRepository(JdbcTemplate jdbcTemplate) {
+	public UserSearchRepository(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
 	// 会員情報検索メソッド(ログイン処理)
-	public List<UserLoginEntity> getUser(String mail, String pass) throws Exception {
+	public List<UserInfoEntity> getUser(String mail, String pass) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
 		sb.append(" user_id,");
@@ -45,7 +44,8 @@ public class UserLoginRepository {
 		sb.append(" user_password = ?");
 		String sql = sb.toString();
 		
-		return jdbcTemplate.query(sql, userLoginMapper, mail, pass);
+		return jdbcTemplate.query(sql, userInfoMapper, mail, pass);
 		
 	}
+
 }

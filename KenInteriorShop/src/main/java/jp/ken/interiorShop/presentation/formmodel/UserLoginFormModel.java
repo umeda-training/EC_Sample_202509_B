@@ -8,7 +8,7 @@ import jp.ken.interiorShop.common.validator.groups.ValidGroup2;
 import lombok.Data;
 
 /*
- * 作成 : nishimura
+ * 作成 : 西村
  */
 @Data
 public class UserLoginFormModel {
