@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -17,6 +18,7 @@ import jp.ken.interiorShop.presentation.formmodel.UserMainFormModel;
 import jp.ken.interiorShop.service.UserMainService;
 
 //担当者：竹内
+@Controller
 public class UserMainController {
 	
 	private UserMainService userMainService;
