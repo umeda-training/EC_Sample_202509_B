@@ -18,7 +18,7 @@
 				
 				<form th:action="@{/user/main}" th:object="${form_list}" method="post">
 					<div id="search">
-						<!--<input type="text" placeholder="検索ワードをいれてください">-->
+						<input type="text" placeholder="検索ワードをいれてください">
 						<input type="submit" value="検索" class="btn">
 						<input type="button" value="絞り込み" class="btn" id="filterbtn">
 					</div>
@@ -41,10 +41,10 @@
 						<div>
 							<a>
 								<table id="item-list">
-									<td><img src="img/${items.item_cd}" alt="${items.item_name}"></td>
-									<td><span th:text="${items.item_name}"></span></td>
-									<td><span th:text="${items.item_price}"></span></td>
-									<td><span th:text="${items.release_date}"></span></td>
+									<td><img src="img/${items.itemCd}" alt="${items.itemName}"></td>
+									<td><span th:text="${items.itemName}"></span></td>
+									<td><span th:text="${items.itemPrice}"></span></td>
+									<td><span th:text="${items.releaseDate}"></span></td>
 								</table>
 							</a>
 						</div>
