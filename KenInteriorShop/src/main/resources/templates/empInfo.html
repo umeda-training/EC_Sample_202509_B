@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<!--
+<!--松田作成-->
+
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -13,28 +14,45 @@
 		</header>
 		<main>
 			<div id="form-area">
-				<th:action="@{/emp/info}" th:object="${empInfo}" method="post"
+				<form th:action="@{/emp/info}" th:object="${empInfo}" method="post">
 			
 		<div class="form-row">
 		<label for="empName">名前</label>
 		<input th:field="*{empName}"th:value="${empName}">
-		<label for="furigana">フリガナ</label>
-		<input th:field="*{furigana}" th:value="${furigana}">
-		<label for="empId">従業員ID</label>
-		<input th:field="*{empId}" th:value="${empId}">
-		<label for="password">パスワード</label>
-		<input th:field="*{password}" th:value="${password}">
-		
-		<input type="submit" name="save" value="保存" class="btn">
-		<input type="submit" name="delete" value="退会" class="btn">
 		</div>
 		
+		<div class="form-row">
+		<label for="furigana">フリガナ</label>
+		<input th:field="*{furigana}" th:value="${furigana}">
+		</div>
+		
+		<div class="form-row">
+		<label for="empId">従業員ID</label>
+		<input th:field="*{empId}" th:value="${empId}" readonly>
+		</div>
+		
+		<div class="form-row">
+		<label for="password">パスワード</label>
+		<input th:field="*{password}" th:value="${password}">
+		</div>
+		
+		<div class="form-row">
+		<input type="submit" name="save" value="保存" class="btn">
+		</div>
+		
+		<button>退会</button>
+			<div popover>
+			<h2>確認</h2>
+			<p>従業員情報を削除します。<br>
+				本当によろしいですか。</p>
+			<botton id="confirmButton">はい</button>
+			<button id="cancelButton">いいえ</button>
+		</div>
+	</form>
+		<a th:href="backAddress"><amall>前に戻る</small></a>
 		
 		</main>
-		<footer>
-			
-		</footer>
+		<footer><small>&copy; @BREXA Technology Inc.All Rights Reserved.</small></footer>
 	</div>
 </body>
 </html>
--->
