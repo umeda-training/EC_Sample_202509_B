@@ -54,7 +54,7 @@ public class UserLoginController {
 	 * @return ログイン画面, 従業員検索画面
 	 * @throws Exception
 	 */
-	@PostMapping(value = "/login")
+	@PostMapping(value = "/user/login")
 	public String loginMembers(@Validated @ModelAttribute UserLoginFormModel userLoginForm,
 			BindingResult result, Model model) throws Exception {
 		String btn = (String) model.getAttribute("btn");
