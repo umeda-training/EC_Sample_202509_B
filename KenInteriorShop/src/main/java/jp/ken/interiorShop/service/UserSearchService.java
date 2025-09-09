@@ -10,16 +10,15 @@ import jp.ken.interiorShop.domain.entity.UserInfoEntity;
 import jp.ken.interiorShop.domain.repository.UserSearchRepository;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 
-/*
- * 作成 : nishimura
- */
+//作成 : 西村
+//会員テーブル検索
 @Service
-public class UserLoginService {
+public class UserSearchService {
 
 	private UserSearchRepository userSearchRepository;
 	private ModelMapper modelMapper;
 	
-	public UserLoginService(UserSearchRepository userSearchRepository, ModelMapper modelMapper) {
+	public UserSearchService(UserSearchRepository userSearchRepository, ModelMapper modelMapper) {
 		this.userSearchRepository = userSearchRepository;
 		this.modelMapper = modelMapper;
 	}
@@ -47,4 +46,5 @@ public class UserLoginService {
 		}
 		return formList;
 	}
+
 }

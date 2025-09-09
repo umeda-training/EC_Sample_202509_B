@@ -9,9 +9,8 @@ import org.springframework.stereotype.Repository;
 import jp.ken.interiorShop.domain.entity.UserInfoEntity;
 import jp.ken.interiorShop.domain.mapper.UserInfoMapper;
 
-/*
- * 作成 : 西村
- */
+//作成 : 西村
+//会員テーブル検索
 @Repository
 public class UserSearchRepository {
 

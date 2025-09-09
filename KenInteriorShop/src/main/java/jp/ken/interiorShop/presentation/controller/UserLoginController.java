@@ -13,19 +13,20 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
-import jp.ken.interiorShop.service.UserLoginService;
+import jp.ken.interiorShop.service.UserSearchService;
 
 /*
- * 作成 : nishimura
+ * 作成 : 西村
+ * 会員ログイン画面
  */
 @Controller
 @SessionAttributes("UserLoginForm")
 public class UserLoginController {
 
-	private UserLoginService userLoginService;
+	private UserSearchService userSearchService;
 	
-	public UserLoginController(UserLoginService userLoginService) {
-		this.userLoginService = userLoginService;
+	public UserLoginController(UserSearchService userSearchService) {
+		this.userSearchService = userSearchService;
 	}
 	
 	// セッションオブジェクトの生成
@@ -67,7 +68,7 @@ public class UserLoginController {
 		if(result.hasErrors()) {
 			return "userLogin";
 		} else {
-			List<UserLoginFormModel> formList = userLoginService.getLogin(userLoginForm);
+			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
 			
 			if(formList == null || formList.isEmpty()) {
 				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
@@ -89,7 +90,6 @@ public class UserLoginController {
 		
 		// ログイン成功時、遷移元の画面に遷移
 		String backAddress = (String) model.getAttribute("backAddress");
-		//model.addAttribute("headline", "トップページ");
 		return backAddress;
 	}
 }
