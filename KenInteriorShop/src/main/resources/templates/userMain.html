@@ -18,7 +18,7 @@
 				
 				<form th:action="@{/user/main}" th:object="${form_list}" method="post">
 					<div id="search">
-						<input th:field="*{search_word"} placeholder="検索ワードをいれてください">
+						<!--<input type="text" placeholder="検索ワードをいれてください">-->
 						<input type="submit" value="検索" class="btn">
 						<input type="button" value="絞り込み" class="btn" id="filterbtn">
 					</div>
