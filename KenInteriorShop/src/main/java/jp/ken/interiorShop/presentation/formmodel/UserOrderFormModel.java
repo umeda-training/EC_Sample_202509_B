@@ -9,8 +9,8 @@ import lombok.Data;
 @Data
 public class UserOrderFormModel implements Serializable{
 	
-	//カート情報
-	//private List<ItemModel> cartItem;
+	//カート情報(Formクラスでは必要なし)
+	//private List<ItemModel> cart;
 	
 	//クレジットカードの情報
 	@NotEmpty(message = "未入力項目があります")
