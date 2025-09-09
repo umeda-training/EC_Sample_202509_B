@@ -1,10 +1,14 @@
 package jp.ken.interiorShop.service;
 
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
+import jp.ken.interiorShop.domain.entity.ItemEntity;
 import jp.ken.interiorShop.domain.repository.UserMainRepository;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 
@@ -13,10 +17,12 @@ import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 public class UserMainService {
 	 
 	private UserMainRepository userMainRepository;
+	private ModelMapper modelMapper;
 	
 	//コンストラクタインジェクション
-	public UserMainService(UserMainRepository userMainRepository) {
+	public UserMainService(UserMainRepository userMainRepository, ModelMapper modelMapper) {
 		this.userMainRepository = userMainRepository;
+		this.modelMapper = modelMapper;
 	}
 	
 	/*
@@ -29,9 +35,16 @@ public class UserMainService {
 	public List<ItemModel> search() throws SQLException{
 		//検索結果格納先
 		List<ItemModel> item_list = null;
+		//Entityオブジェクト作成
+		List<ItemEntity> entityList = null;
+		
+		//本日の日にち作成
+		LocalDate date = LocalDate.now();
 		
 		//repositoryの全件検索メソッド呼び出し
-		//item_list = userMainRepository.getItemList();
+		entityList = userMainRepository.getItemList(date);
+		
+		item_list = convert(entityList);
 		
 		return item_list;
 	}
@@ -96,5 +109,25 @@ public class UserMainService {
 		//item_list = userMainRepository.getItemList(category, search_word, low_value, high_value);
 		
 		return item_list;
+	}
+	
+	/* Entityコンバート
+	 * メソッド名：convert()
+	 * 引数：List<ItemEntity>
+	 * 戻り値：List<ItemModel>型の変換されたリスト
+	 * 動作詳細：repositoryで取得したリストをコンバート
+	 */
+	
+	private List<ItemModel> convert(List<ItemEntity> entityList){
+		//変換先のオブジェクトの作成
+		List<ItemModel> itemList = new ArrayList<ItemModel>();
+		
+		for(ItemEntity entity : entityList) {
+			ItemModel itemModel = modelMapper.map(entity, ItemModel.class);
+			
+			itemList.add(itemModel);
+		}
+		
+		return itemList;
 	}
 }
