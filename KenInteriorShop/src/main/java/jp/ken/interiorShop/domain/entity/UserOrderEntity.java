@@ -8,14 +8,23 @@ import lombok.Data;
 @Data
 public class UserOrderEntity {
 
-	private int orderId;           // 注文ID（DBでオートインクリメント）
-	private int userId;            // 顧客ID
-	private String userName;      //注文者名
+	// 注文ID（DBでオートインクリメント）
+	private int orderId;
+	
+	// 顧客ID
+	private int userId;
+    //注文者名
+	private String userName;
 
-	private int total;              // 合計金額
-	private LocalDateTime orderDate; // 注文日
+	//合計金額
+	private int total;
+	
+	//注文日
+	private LocalDateTime orderDate;
 
-    private int userPost;       // 郵便番号
-    private String userAddress;    // 住所
-
+	//郵便番号
+    private int userPost;
+    
+    //住所
+    private String userAddress;
 }
