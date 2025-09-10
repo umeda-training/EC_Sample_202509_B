@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 import jp.ken.interiorShop.presentation.formmodel.UserMainFormModel;
 import jp.ken.interiorShop.service.UserMainService;
@@ -87,22 +88,36 @@ public class UserMainController {
 	 * ・商品を押下時に該当商品に遷移
 	 * 
 	 */
+	@SuppressWarnings("unchecked")
 	@PostMapping(value ="/user/main")
-	public String UserMainControl(@Validated @ModelAttribute UserMainFormModel userMainFormModel, BindingResult result, Model model) {
+	public String UserMainControl(@Validated @ModelAttribute UserMainFormModel userMainFormModel, 
+			BindingResult result, Model model, HttpServletRequest request) throws SQLException {
 		//メインタイトルテキスト用
 		model.addAttribute("headline", "検索結果");
 		
+		//取得した商品情報格納先
+		List<ItemModel> toDetailItem = new ArrayList<ItemModel>();
+		
+		//押下した商品情報取得
+		
+		String toDetail = request.getParameter("detail");
+		
 		//エラーがある場合バリデーションを表示
 		if(result.hasErrors()) {
-			return "userMain";
-		} else if(model.getAttribute("detail") != null) {
-			//押された商品の商品情報を取得
-			ItemModel toDetailItem = (ItemModel) model.getAttribute("items");	
+			return "userMain";}
+		if(toDetail != null) {
+			//取得した商品コードからデータを取得
+			
+			toDetailItem = userMainService.search(toDetail);
+			
 			
 			//セッションに格納
 			model.addAttribute("toDetailItem", toDetailItem);
 			
-			return "userItem";
+			return "/user/item";
+		}
+		return "userMain";
+			/*
 		} else {
 			//保管用のリスト作成
 			List<ItemModel> item_list = new ArrayList<ItemModel>();
@@ -149,9 +164,8 @@ public class UserMainController {
 			
 			//商品押下時
 			
-			
-		}
+			}*/
+		
+		
 	}
-	
-
 }

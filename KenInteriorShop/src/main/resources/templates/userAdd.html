@@ -29,10 +29,10 @@
 					</div>
 
 					<div class="form-row">
-						<div class="title"><label for="zip">郵便番号</label></div>
+						<div class="title"><label for="post">郵便番号</label></div>
 						<div class="content">
-							<input th:field="*{zip}" size="8" placeholder="3999999（ハイフンなし）">
-							<span th:if="${#fields.hasErrors('zip')}" th:errors="*{zip}" class="errors"></span>
+							<input th:field="*{post}" size="8" placeholder="3999999（ハイフンなし）">
+							<span th:if="${#fields.hasErrors('post')}" th:errors="*{post}" class="errors"></span>
 						</div>
 					</div>
 
@@ -72,11 +72,9 @@
 						<div class="title"><label for="gender">性別</label></div>
 						<div class="content">
 							<select th:field="*{gender}">
-								<option value="not_selected">---</option>
-								<option value="man">男</option>
-								<option value="woman">女</option>
-								<option value="no_answer">未回答</option>
+								<option th:each="genders : ${genderMap}" th:value="${genders.key}" th:text="${genders.value}"></option>
 							</select>
+							<span th:text="${genderError}" class="errors"></span>
 						</div>
 					</div>
 
@@ -91,7 +89,8 @@
 							</select>&nbsp;月
 							<select th:field="*{birthDay}">
 								<option th:each="days : ${listBirthDays}" th:value="${days.data}" th:text="${days.label}"></option>
-							</select>&nbsp;日
+							</select>&nbsp;日&nbsp;
+							<span th:text="${birthError}" class="errors"></span>
 						</div>
 					</div>
 

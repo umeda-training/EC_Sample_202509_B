@@ -1,41 +1,37 @@
 <!DOCTYPE html>
-<!-- 担当 : nishimura -->
+<!-- 作成 : 西村 -->
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head>
-<meta charset="UTF-8">
-<title>会員ログインページ</title>
-<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
-</head>
+	<head>
+		<meta charset="UTF-8">
+		<title>会員ログインページ</title>
+		<link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
+	</head>
 <body>
 	<div id="wrapper">
 		<header><h1>ログイン画面(会員)</h1></header>
 		<main>
 			<div id="form-area">
-				<form th:action="@{/user/login}" th:object="${userLoginForm}" method="post">
+				<form th:action="@{/user/login}" th:object="${userLoginFormModel}" method="post">
 					
 					<div class="form-row">
-						<label for="loginMail">メールアドレス</label>
-						<input th:field="*{loginMail}" th:value="${loginMail}">
-						<span th:if="${#fields.hasErrors('loginMail')}" th:errors="*{loginMail}" class="errors"></span>
+						<label for="mail">メールアドレス</label>
+						<input th:field="*{userMail}" value="${userMail}">
+						<span th:if="${#fields.hasErrors('userMail')}" th:errors="*{userMail}" class="errors"></span>
 					</div>
 					<div class="form-row">
-						<label for="loginPass">パスワード</label>
-						<input th:field="*{loginPass}" th:value="${loginPass}">
-						<span th:if="${#fields.hasErrors('loginPass')}" th:errors="*{loginPass}" class="errors"></span>
+						<label for="password">パスワード</label>
+						<input type="password" th:field="*{userPass}" value="${userPass}">
+						<span th:if="${#fields.hasErrors('userPass')}" th:errors="*{userPass}" class="errors"></span>
 					</div>
 					<div class="form-row">
 						<input type="submit" value="ログイン" class="btn">
 					</div>
-					<div class="form-row">
-						<span class="errors" th:text="${errorMessage}"></span>
-					</div>
-					<div class="form-row">
-						<input type="submit" value="新規会員登録" class="btn">
-						<input type="hidden" th:field="*{btn}" th:value="${btn}">
-					</div>
+					<span th:text="${errors}" class="errors"></span>
 				</form>
+				<br>
+				<a th:href="@{/user/add}">新規会員登録</a><br>
 				<a th:href="@{/emp/login}"><small>従業員ログインページ</small></a><br>
-				<a th:href="backAddress"><small>前に戻る</small></a>
+				<a th:href="@{/user/main}"><small>前に戻る</small></a>
 			</div>
 		</main>
 		<footer><small>&copy; © BREXA Technology Inc.All Rights Reserved.</small></footer>

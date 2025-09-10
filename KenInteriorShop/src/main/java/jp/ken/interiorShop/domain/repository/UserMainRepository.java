@@ -57,6 +57,36 @@ public class UserMainRepository {
 		return itemList;
 	}
 	
+	/* 商品詳細用
+	 * メソッド名：getItemList()
+	 * 引数：商品コード
+	 * 戻り値：List<ItemModel>型の検索リスト
+	 * 動作詳細：商品テーブルにあるシステム日付より前のもの取得
+	 */
+	
+	public List<ItemEntity> getItemList(String item_cd) throws SQLException{
+		
+		//引数の日にちを変換
+		//String searchDate = date.toString();
+		//共通のSQL分の作成
+		StringBuilder sb = createCommonSQL();
+		
+		//全件用の追加文
+		sb.append(" WHERE");
+		
+		//既に発売されている条件(パラメータは引数の日にち) 
+		sb.append(" item_cd = ?");
+		
+		//SQL文の統合
+		String sql = sb.toString();
+		
+		//パラメータに本日の日にち挿入し、SQL分実行
+		//List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper);
+		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, item_cd); 
+		
+		return itemList;
+	}
+	
 	/* 共通部分のSQL文作成
 	 * メソッド名：createCommonSQL()
 	 * 引数：無し

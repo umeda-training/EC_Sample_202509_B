@@ -1,7 +1,5 @@
 package jp.ken.interiorShop.presentation.controller;
 
-import java.util.List;
-
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -12,20 +10,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jp.ken.interiorShop.common.validator.groups.ValidGroupOrder;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
-import jp.ken.interiorShop.service.UserLoginService;
+import jp.ken.interiorShop.service.UserSearchService;
 
 /*
- * 作成 : nishimura
+ * 作成 : 西村
+ * 会員ログイン画面
  */
 @Controller
 @SessionAttributes("UserLoginForm")
 public class UserLoginController {
 
-	private UserLoginService userLoginService;
+	private UserSearchService userSearchService;
 	
-	public UserLoginController(UserLoginService userLoginService) {
-		this.userLoginService = userLoginService;
+	public UserLoginController(UserSearchService userSearchService) {
+		this.userSearchService = userSearchService;
 	}
 	
 	// セッションオブジェクトの生成
@@ -41,8 +41,8 @@ public class UserLoginController {
 	 */
 	@GetMapping(value = "/user/login")
 	public String toLogin(SessionStatus status, Model model) {
-		UserLoginFormModel userLoginForm = new UserLoginFormModel();
-		model.addAttribute("userLoginForm", userLoginForm);
+		UserLoginFormModel form = new UserLoginFormModel();
+		model.addAttribute("userLoginFormModel", form);
 		return "userLogin";
 	}
 	
@@ -55,20 +55,33 @@ public class UserLoginController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/user/login")
-	public String loginMembers(@Validated @ModelAttribute UserLoginFormModel userLoginForm,
+	public String loginMembers(@Validated(ValidGroupOrder.class) @ModelAttribute UserLoginFormModel loginForm,
 			BindingResult result, Model model) throws Exception {
-		String btn = (String) model.getAttribute("btn");
-		// 新規会員登録 ボタン押下時
-		if(btn != null) {
-			return "userAdd";
-		}
-
-		// バリデーションチェック(未入力チェック)
+		// バリデーションチェック
 		if(result.hasErrors()) {
 			return "userLogin";
 		} else {
-			List<UserLoginFormModel> formList = userLoginService.getLogin(userLoginForm);
-			
+//			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
+			UserLoginFormModel form = userSearchService.getLogin(loginForm);
+			String tmpMail = form.getUserMail();
+			if(tmpMail == null || tmpMail.isEmpty()) {
+				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
+				return "userLogin";
+			}
+			//セッションオブジェクトに格納
+			UserLoginFormModel userLoginForm = new UserLoginFormModel();
+			userLoginForm.setUserId(form.getUserId());
+			userLoginForm.setUserName(form.getUserName());
+			userLoginForm.setUserKana(form.getUserKana());
+			userLoginForm.setUserGender(form.getUserGender());
+			userLoginForm.setUserBirth(form.getUserBirth());
+			userLoginForm.setUserPost(form.getUserPost());
+			userLoginForm.setUserAddress(form.getUserAddress());
+			userLoginForm.setUserPhone(form.getUserPhone());
+			userLoginForm.setUserMail(form.getUserMail());
+			userLoginForm.setUserPass(form.getUserPass());
+			model.addAttribute("UserLoginForm", userLoginForm);
+/*
 			if(formList == null || formList.isEmpty()) {
 				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
 				return "userLogin";
@@ -85,11 +98,13 @@ public class UserLoginController {
 			userLoginForm.setLoginMail(formList.getFirst().getLoginMail());
 			userLoginForm.setLoginPass(formList.getFirst().getLoginPass());
 			model.addAttribute("UserLoginForm", userLoginForm);
+*/
 		}
 		
 		// ログイン成功時、遷移元の画面に遷移
-		String backAddress = (String) model.getAttribute("backAddress");
-		//model.addAttribute("headline", "トップページ");
-		return backAddress;
+		// 一旦メインメニュー固定とする
+//		String backAddress = (String) model.getAttribute("backAddress");
+//		return backAddress;
+		return "redirect:/user/main";
 	}
 }
