@@ -11,7 +11,7 @@
 		<header　th:insert="~{header :: header_area}"></header>
 		<main>
 			<div id="form-area">
-				<form th:action="@{/empOrder}" th:object="${empOrderForm}" method="post">
+				<form th:action="@{/order}" th:object="${empOrderForm}" method="get">
 					<!--検索欄-->
 					<div class="form-row">
 						<label for="orderId">注文ID</label>
