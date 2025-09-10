@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<!--松田-->
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -8,9 +10,50 @@
 <body>
 	<div id="wrapper">
 		<header>
-		
+		<h1>新規従業員登録</h1>
 		</header>
 		<main>
+					<div id="form-area">
+				<form th:action="@{/emp/add}" th:object="${empAddForm}" method="post">
+					<div class="form-row">
+						<div class="title"><label for="name">お名前</label></div>
+						<div class="content">
+							<input th:field="*{name}" value="" size="25" placeholder="山田太郎">
+							<span th:if="${#fields.hasErrors('name')}" th:errors="*{name}" class="errors"></span>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="title"><label for="kana">フリガナ</label></div>
+						<div class="content">
+							<input th:field="*{kana}" value="" size="25" placeholder="ヤマダタロウ">
+							<span th:if="${#fields.hasErrors('kana')}" th:errors="*{kana}" class="errors"></span>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="title"><label for="zip">従業員ID</label></div>
+						<div class="content">
+							<input th:field="*{empId}" size="8" placeholder="12345678">
+							<span th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}" class="errors"></span>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<div class="title"><label for="password">パスワード</label></div>
+						<div class="content">
+							<input th:field="*{password}" size="25" placeholder="英数字8桁">
+							<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="errors"></span>
+						</div>
+					</div>
+
+					<div class="form-row">
+						<input type="submit" value="登録" class="btn">
+					</div>
+					
+				</form>
+				<a th:href="/user/login">前に戻る</a>
+			</div>
 		
 		</main>
 		<footer></footer>
