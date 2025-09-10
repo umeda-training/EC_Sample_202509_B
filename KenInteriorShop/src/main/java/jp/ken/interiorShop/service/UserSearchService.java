@@ -25,10 +25,10 @@ public class UserSearchService {
 		UserInfoEntity entity = null;
 //		List<UserLoginFormModel> formList = null;
 		
-		String logMail = form.getLoginMail();
-		String logPass = form.getLoginPass();
+		String mail = form.getUserMail();
+		String pass = form.getUserPass();
 		
-		entity = userSearchRepository.getUser(logMail, logPass);
+		entity = userSearchRepository.getUser(mail, pass);
 		return modelMapper.map(entity, UserLoginFormModel.class);
 	}
 	

@@ -1,5 +1,7 @@
 package jp.ken.interiorShop.domain.repository;
 
+import java.util.List;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -25,10 +27,16 @@ public class UserSearchRepository {
 		sb.append(" WHERE");
 		sb.append(" user_mail = ?");
 		sb.append(" AND");
-		sb.append(" user_password = ?");
+		sb.append(" user_password = ?;");
 		String sql = sb.toString();
 		
-		return jdbcTemplate.queryForObject(sql, userInfoMapper, mail, pass);
+		List<UserInfoEntity> entityList = jdbcTemplate.query(sql, userInfoMapper, mail, pass);
+		// 検索結果が1件であればその結果を返す。それ以外はnullを返す
+		if(entityList.size() == 1) {
+			return entityList.getFirst();
+		} else {
+			return new UserInfoEntity();
+		}
 		
 	}
 	
@@ -39,7 +47,13 @@ public class UserSearchRepository {
 		sb.append(" user_mail = ?");
 		String sql = sb.toString();
 		
-		return jdbcTemplate.queryForObject(sql, userInfoMapper, mail);
+		List<UserInfoEntity> entityList =  jdbcTemplate.query(sql, userInfoMapper, mail);
+		// 検索結果が1件であればその結果を返す。それ以外はnullを返す
+		if(entityList.size() == 1) {
+			return entityList.getFirst();
+		} else {
+			return null;
+		}
 		
 	}
 	

@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jp.ken.interiorShop.common.validator.groups.ValidGroupOrder;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 import jp.ken.interiorShop.service.UserSearchService;
 
@@ -40,8 +41,8 @@ public class UserLoginController {
 	 */
 	@GetMapping(value = "/user/login")
 	public String toLogin(SessionStatus status, Model model) {
-		UserLoginFormModel userLoginForm = new UserLoginFormModel();
-		model.addAttribute("userLoginForm", userLoginForm);
+		UserLoginFormModel form = new UserLoginFormModel();
+		model.addAttribute("userLoginFormModel", form);
 		return "userLogin";
 	}
 	
@@ -54,35 +55,31 @@ public class UserLoginController {
 	 * @throws Exception
 	 */
 	@PostMapping(value = "/user/login")
-	public String loginMembers(@Validated @ModelAttribute UserLoginFormModel userLoginForm,
+	public String loginMembers(@Validated(ValidGroupOrder.class) @ModelAttribute UserLoginFormModel loginForm,
 			BindingResult result, Model model) throws Exception {
-		String btn = (String) model.getAttribute("btn");
-		// 新規会員登録 ボタン押下時
-		if(btn != null) {
-			return "userAdd";
-		}
-
 		// バリデーションチェック
 		if(result.hasErrors()) {
 			return "userLogin";
 		} else {
 //			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
-			UserLoginFormModel form = userSearchService.getLogin(userLoginForm);
-			if(form == null) {
+			UserLoginFormModel form = userSearchService.getLogin(loginForm);
+			String tmpMail = form.getUserMail();
+			if(tmpMail == null || tmpMail.isEmpty()) {
 				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
 				return "userLogin";
 			}
 			//セッションオブジェクトに格納
-			userLoginForm.setLoginId(form.getLoginId());
-			userLoginForm.setLoginName(form.getLoginName());
-			userLoginForm.setLoginKana(form.getLoginKana());
-			userLoginForm.setLoginGender(form.getLoginGender());
-			userLoginForm.setLoginBirth(form.getLoginBirth());
-			userLoginForm.setLoginPost(form.getLoginPost());
-			userLoginForm.setLoginAddress(form.getLoginAddress());
-			userLoginForm.setLoginPhone(form.getLoginPhone());
-			userLoginForm.setLoginMail(form.getLoginMail());
-			userLoginForm.setLoginPass(form.getLoginPass());
+			UserLoginFormModel userLoginForm = new UserLoginFormModel();
+			userLoginForm.setUserId(form.getUserId());
+			userLoginForm.setUserName(form.getUserName());
+			userLoginForm.setUserKana(form.getUserKana());
+			userLoginForm.setUserGender(form.getUserGender());
+			userLoginForm.setUserBirth(form.getUserBirth());
+			userLoginForm.setUserPost(form.getUserPost());
+			userLoginForm.setUserAddress(form.getUserAddress());
+			userLoginForm.setUserPhone(form.getUserPhone());
+			userLoginForm.setUserMail(form.getUserMail());
+			userLoginForm.setUserPass(form.getUserPass());
 			model.addAttribute("UserLoginForm", userLoginForm);
 /*
 			if(formList == null || formList.isEmpty()) {
@@ -105,7 +102,9 @@ public class UserLoginController {
 		}
 		
 		// ログイン成功時、遷移元の画面に遷移
-		String backAddress = (String) model.getAttribute("backAddress");
-		return backAddress;
+		// 一旦メインメニュー固定とする
+//		String backAddress = (String) model.getAttribute("backAddress");
+//		return backAddress;
+		return "redirect:/user/main";
 	}
 }
