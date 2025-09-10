@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>タイトル：（商品名)</title>
+<title th:text="${pagetitle}">商品詳細</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
 
@@ -14,8 +14,18 @@
 			<h1>商品詳細</h1>
 		</header>
 		<main>
+			
 			<h1>遷移成功</h1>
-			<span th:text="${toDetailItem.itemCd}"></span>
+			<th:block th:each="items : ${toDetailItem}">
+				<span th:text="${items.itemName}"></span>
+				<span th:text="${items.itemPrice}"></span>
+				<span th:text="${items.releaseDate}"></span>
+				<img th:src="@{|/img/${items.itemCd}.png|}" th:alt="${items.itemName}">
+			</th:block>
+			<form th:action="@{/user/item}" th:method="post">
+				<input type="submit" value="カートに追加">
+				<input type="hidden" name="item" th:value="${toDetailItem}">
+			</form>
 		</main>
 		<footer></footer>
 	</div>

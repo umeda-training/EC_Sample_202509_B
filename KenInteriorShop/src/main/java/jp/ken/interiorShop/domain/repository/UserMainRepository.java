@@ -82,9 +82,9 @@ public class UserMainRepository {
 		
 		//パラメータに本日の日にち挿入し、SQL分実行
 		//List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper);
-		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, item_cd); 
+		List<ItemEntity> itemEntity = jdbcTemplate.query(sql, userItemMapper, item_cd); 
 		
-		return itemList;
+		return itemEntity;
 	}
 	
 	/* 共通部分のSQL文作成
