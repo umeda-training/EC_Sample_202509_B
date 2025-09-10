@@ -2,8 +2,11 @@ package jp.ken.interiorShop.service;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import jp.ken.interiorShop.domain.entity.UserOrderEntity;
 import jp.ken.interiorShop.domain.repository.UserOrderRepository;
+import jp.ken.interiorShop.presentation.formmodel.UserOrderFormModel;
 
 //担当：内川
 @Service
@@ -18,8 +21,17 @@ public class UserOrderService {
 		this.formMapper = formMapper;
 	}
 	/*
-	 * 注文が確定した時の処理
+	 * 注文が確定した時のorderテーブルに登録をする
 	 */
+	@Transactional(rollbackFor = Exception.class)
+	//登録するだけだからvoid
+	public void registUserOrder (UserOrderFormModel userOrderForm) throws Exception {
+		
+		//フォームから受け取った内容を、Entityにコピー
+		UserOrderEntity userOrderEntity = formMapper.map(userOrderForm, UserOrderEntity.class);
+		userOrderRepository.insertOrder(userOrderEntity);
+
+	}
 	
 	
 
