@@ -18,7 +18,7 @@
 				
 				<form th:action="@{/user/main}" th:object="${form_list}" method="post">
 					<div id="search">
-						<input type="text" placeholder="検索ワードをいれてください">
+						<input type="text" placeholder="検索ワードをいれてください" size="50">
 						<input type="submit" value="検索" class="btn">
 						<input type="button" value="絞り込み" class="btn" id="filterbtn">
 					</div>
@@ -33,27 +33,33 @@
 					</div>
 				</form>
 				
-				<form th:if="${item_list != null}" th:action="@{/user/item}"  method="get">
+				<div th:if="${item_list != null}">
 					<div class="subtitle">
 						<h2>商品一覧</h2>
 					</div>
-					<th:block th:each="items : ${item_list}">
-						<div>
-							<a>
-								<table id="item-list">
-									<td><img src="img/${items.itemCd}" alt="${items.itemName}"></td>
-									<td><span th:text="${items.itemName}"></span></td>
-									<td><span th:text="${items.itemPrice}"></span></td>
-									<td><span th:text="${items.releaseDate}"></span></td>
-								</table>
-							</a>
-						</div>
-					</th:block>
-				</form>
+					<table id="item-list" border="1">
+							<th:block th:each="items : ${item_list}">
+								<form th:action="@{/user/main}" th:object="${item_list}"  method="post">
+									<tr>	
+										<label>
+											<td><img th:src="|../image/${items.itemCd}.png|" th:alt="${items.itemName}"></td>
+											<td><span th:text="|../image/${items.itemCd}.png|"></span></td>
+											<td><span th:text="${items.itemName}"></span></td>
+											<td><span th:text="${items.itemPrice}"></span></td>
+											<td><span th:text="${items.releaseDate}"></span></td>
+											<td><input type="submit" value="商品詳細へ">
+											<input type="hidden" name="detail" th:value="${items}"></td>
+										</label>
+									</tr>
+								</form>
+							</th:block>
+					</table>
+				</div>
 				
 				<div id="next-item">
 					<div class="subtitle">
 						<h2>次月販売予定</h2>
+						<img src="../image/bed001.png">
 					</div>
 				</div>
 				
