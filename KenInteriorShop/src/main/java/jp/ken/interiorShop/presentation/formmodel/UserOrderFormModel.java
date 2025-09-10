@@ -33,5 +33,8 @@ public class UserOrderFormModel implements Serializable{
 	@NotEmpty(message = "未入力項目があります")
 	@Pattern(regexp = "^[0-9]{7}$", message = "入力形式に誤りがあります。")
 	private String userPost;
-
+	
+	//支払方法の情報を取得
+	private String payment;
+	
 }
