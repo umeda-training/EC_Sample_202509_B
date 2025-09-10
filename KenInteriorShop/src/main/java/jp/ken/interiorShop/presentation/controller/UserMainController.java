@@ -12,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 import jp.ken.interiorShop.presentation.formmodel.UserMainFormModel;
@@ -19,10 +20,17 @@ import jp.ken.interiorShop.service.UserMainService;
 
 //担当者：竹内
 @Controller
+@SessionAttributes("toDetailItem")
 public class UserMainController {
 	
-	private UserMainService userMainService;
+	//セッションオブジェクトの生成
+	@ModelAttribute("toDetailItem")
+	public ItemModel setupItemModel() {
+		return new ItemModel();
+	}
 	
+	//コンストラクタ用
+	private UserMainService userMainService;
 	
 	/** 
 	 * デフォルトコンストラクタ
@@ -87,6 +95,14 @@ public class UserMainController {
 		//エラーがある場合バリデーションを表示
 		if(result.hasErrors()) {
 			return "userMain";
+		} else if(model.getAttribute("detail") != null) {
+			//押された商品の商品情報を取得
+			ItemModel toDetailItem = (ItemModel) model.getAttribute("items");	
+			
+			//セッションに格納
+			model.addAttribute("toDetailItem", toDetailItem);
+			
+			return "userItem";
 		} else {
 			//保管用のリスト作成
 			List<ItemModel> item_list = new ArrayList<ItemModel>();
@@ -132,12 +148,8 @@ public class UserMainController {
 			//return "userMain";
 			
 			//商品押下時
-			//if(model.getAttribute("item_detail") != null)
-			//押された商品の商品情報を取得
 			
-			//セッションに格納
 			
-			//return "userItem";
 		}
 	}
 	

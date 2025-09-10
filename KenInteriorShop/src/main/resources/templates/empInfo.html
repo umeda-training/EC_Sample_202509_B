@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<!--松田作成-->
+<!--松田-->
 
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
@@ -10,14 +10,14 @@
 <body>
 	<div id="wrapper">
 		<header>
-			<h1>従業員情報管理画面</h1>
+			<h1>従業員情報</h1>
 		</header>
 		<main>
 			<div id="form-area">
 				<form th:action="@{/emp/info}" th:object="${empInfo}" method="post">
 			
 		<div class="form-row">
-		<label for="empName">名前</label>
+		<label for="empName">お名前</label>
 		<input th:field="*{empName}"th:value="${empName}">
 		</div>
 		
@@ -40,14 +40,15 @@
 		<input type="submit" name="save" value="保存" class="btn">
 		</div>
 		
-		<button>退会</button>
-			<div popover>
-			<h2>確認</h2>
-			<p>従業員情報を削除します。<br>
-				本当によろしいですか。</p>
+		<button popovertarget="delete">削除</button>
+			<div id="delete" popover>
+			従業員情報を削除します。<br>
+				本当によろしいですか。
 			<botton id="confirmButton">はい</button>
-			<button id="cancelButton">いいえ</button>
-		</div>
+			<button popovertarget="delete" popovertargetaction='hidden'>いいえ</button>
+				</div>
+		
+	</div>
 	</form>
 		<a th:href="backAddress"><amall>前に戻る</small></a>
 		

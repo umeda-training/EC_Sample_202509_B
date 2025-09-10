@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+
+<!--松田-->
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
@@ -8,10 +10,24 @@
 <body>
 	<div id="wrapper">
 		<header>
-		
+		<h1>従業員メインメニュー</h1>
 		</header>
 		<main>
-		
+			<div class="form-area">
+				<form th:action="@{/emp/main}" th:object="${empMain}" method="post">
+				
+					<div class="form-row">
+					<input type="submit" value="注文管理" class="btn">
+					</div>
+
+					<div class="form-row">
+						<input type="submit" value="従業員情報管理" class="btn">
+					</div>
+			
+					<div class="form-row">
+						<input type="submit" value="従業員情報登録" class="btn">
+					</div>
+			
 		</main>
 		<footer></footer>
 	</div>

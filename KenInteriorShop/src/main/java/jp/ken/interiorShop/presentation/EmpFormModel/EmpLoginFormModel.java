@@ -1,5 +1,30 @@
 package jp.ken.interiorShop.presentation.EmpFormModel;
 
-public class EmpLoginFormModel {
+/*
+ * 松田
+ */
 
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
+import lombok.Data;
+
+@Data
+public class EmpLoginFormModel {
+	
+		// 従業員名
+		private String empLoginName;
+		
+		// フリガナ
+		private String empLoginKana;
+
+		// 従業員ID
+		@NotEmpty(message = "従業員IDは必須です")
+		private String empId;
+		
+		// パスワード
+		@NotEmpty(message = "必須入力です")
+		@Pattern(regexp ="^[a-zA-Z0-9]{8}$", message = "英数字8桁を入力してください")
+		private String password;
+	
+	
 }
