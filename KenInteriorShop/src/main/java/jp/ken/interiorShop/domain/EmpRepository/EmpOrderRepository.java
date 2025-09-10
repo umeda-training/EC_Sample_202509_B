@@ -17,7 +17,7 @@ public class EmpOrderRepository {
 	
 	private JdbcTemplate jdbcTemplate;
 	
-	//注文一覧全件取得用メソッド
+	//注文一覧取得用メソッド
 	public List<EmpOrderFormModel> getOrderList() throws Exception{
 		
 		StringBuilder sb = new StringBuilder();
@@ -25,6 +25,7 @@ public class EmpOrderRepository {
 		sb.append(" o.order_id,");
 		sb.append(" o.user_name,");
 		sb.append(" o.order_date,");
+		sb.append(" o.order_address,");
 		sb.append(" d.item_cd,");
 		sb.append(" d.quantity");
 		sb.append("FROM orders o");
