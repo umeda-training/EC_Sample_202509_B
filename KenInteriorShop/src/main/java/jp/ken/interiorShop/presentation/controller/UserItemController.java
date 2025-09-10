@@ -56,8 +56,9 @@ public class UserItemController {
 					//セッションに格納
 					model.addAttribute("toDetailItem", toDetailItem);
 					
-					System.out.println(toDetailItem);
-					return "/userItem";
+					//タイトル用
+					model.addAttribute("pagetitle", toDetailItem.get(0).getItemName());
+					return "userItem";
 				} else {
 				return "userMain";
 				}

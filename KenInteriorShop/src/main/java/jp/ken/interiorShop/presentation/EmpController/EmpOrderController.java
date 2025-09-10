@@ -14,7 +14,7 @@ import jp.ken.interiorShop.presentation.EmpFormModel.EmpOrderFormModel;
 
 //担当：濱邊
 @Controller
-@RequestMapping("/empOrder")
+@RequestMapping("/order")
 public class EmpOrderController {
 	private EmpOrderService empOrderService;
 	
