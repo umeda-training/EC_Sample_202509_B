@@ -2,16 +2,20 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>タイトル：（商品名)</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
+
+<!--担当者:竹内-->
+
 <body>
 	<div id="wrapper">
 		<header>
 			<h1>商品詳細</h1>
 		</header>
 		<main>
-		
+			<h1>遷移成功</h1>
+			<span th:text="${toDetailItem.itemCd}"></span>
 		</main>
 		<footer></footer>
 	</div>

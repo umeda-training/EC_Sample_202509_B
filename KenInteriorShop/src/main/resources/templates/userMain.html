@@ -39,19 +39,19 @@
 					</div>
 					<table id="item-list" border="1">
 							<th:block th:each="items : ${item_list}">
-								<form th:action="@{/user/main}" th:object="${item_list}"  method="post">
-									<tr>	
-										<label>
-											<td><img th:src="|../image/${items.itemCd}.png|" th:alt="${items.itemName}"></td>
-											<td><span th:text="|../image/${items.itemCd}.png|"></span></td>
-											<td><span th:text="${items.itemName}"></span></td>
-											<td><span th:text="${items.itemPrice}"></span></td>
-											<td><span th:text="${items.releaseDate}"></span></td>
+								<tr>	
+									<label>
+										<td><img th:src="|../image/${items.itemCd}.png|" th:alt="${items.itemName}"></td>
+										<td><span th:text="|../image/${items.itemCd}.png|"></span></td>
+										<td><span th:text="${items.itemName}"></span></td>
+										<td><span th:text="${items.itemPrice}"></span></td>
+										<td><span th:text="${items.releaseDate}"></span></td>
+										<form th:action="@{/user/item}"  method="get">
 											<td><input type="submit" value="商品詳細へ">
-											<input type="hidden" name="detail" th:value="${items}"></td>
-										</label>
-									</tr>
-								</form>
+											<input type="hidden" name="detail" th:value="${items.itemCd}"></td>
+										</form>
+									</label>
+								</tr>
 							</th:block>
 					</table>
 				</div>

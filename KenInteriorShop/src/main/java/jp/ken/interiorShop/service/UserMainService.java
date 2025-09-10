@@ -49,6 +49,27 @@ public class UserMainService {
 		return item_list;
 	}
 	
+	/*
+	 * 商品詳細用
+	 * メソッド名：search()
+	 * 引数無し：String型の商品コード
+	 * 戻り値：List<itemModel>型の検索結果リスト
+	 * repositoryクラスで引数の商品を取得
+	 */
+	public List<ItemModel> search(String item_cd) throws SQLException{
+		//検索結果格納先
+		List<ItemModel> item_list = null;
+		//Entityオブジェクト作成
+		List<ItemEntity> entityList = null;
+		
+		//repositoryの全件検索メソッド呼び出し
+		entityList = userMainRepository.getItemList(item_cd);
+		
+		item_list = convert(entityList);
+		
+		return item_list;
+	}
+	
 	/*次月販売予定商品検索用
 	 * メソッド名：searchNextItems()
 	 * 引数：システム日付の翌月
