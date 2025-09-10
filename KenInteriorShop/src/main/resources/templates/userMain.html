@@ -41,7 +41,7 @@
 							<th:block th:each="items : ${item_list}">
 								<tr>	
 									<label>
-										<td><img th:src="|../image/${items.itemCd}.png|" th:alt="${items.itemName}"></td>
+										<td><img th:src="@{|/img/${items.itemCd}.png|}" th:alt="${items.itemName}"></td>
 										<td><span th:text="|../image/${items.itemCd}.png|"></span></td>
 										<td><span th:text="${items.itemName}"></span></td>
 										<td><span th:text="${items.itemPrice}"></span></td>
