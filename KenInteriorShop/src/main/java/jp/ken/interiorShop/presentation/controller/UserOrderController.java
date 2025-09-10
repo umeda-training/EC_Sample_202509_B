@@ -39,7 +39,7 @@ public class UserOrderController {
 		 */
 		UserLoginFormModel userLoginFormModel = (UserLoginFormModel) session.getAttribute("UserLoginForm");
 		if(userLoginFormModel == null) {
-			return "/userLogin";
+			return "redirect:/user/login";
 		}
 		
 		/**
@@ -61,11 +61,8 @@ public class UserOrderController {
 		List<ItemModel> itemList = (List<ItemModel>) session.getAttribute("item_list");
 			if(itemList != null || !itemList.isEmpty()) {
 				//セッションからログインユーザーの郵便番号と住所を取得
-				return "/userOrder";
+				return "userOrder";
 			}
-		
-		
-		
 		return "/userOrder";
 		
 	}
@@ -78,17 +75,17 @@ public class UserOrderController {
 		 * 入力エラーがある場合、注文画面へ戻る
 		 */
 		if(result.hasErrors()) {
-			return "/userOrder";
+			return "userOrder";
 		}
 		//代金引換選択→注文確定（DBに情報登録）
 		else if("cash".equals(userOrderFormModel.getPayment())){
 			userOrderService.registUserOrder(userOrderFormModel);
-			return "/complete";
+			return "complete";
 		} 
 		//カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）
 		else if("card".equals(userOrderFormModel.getPayment())){
 			
-			return "/complete";
+			return "complete";
 		}
 		return null;
 		
