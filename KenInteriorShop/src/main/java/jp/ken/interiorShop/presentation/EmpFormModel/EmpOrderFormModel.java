@@ -2,6 +2,7 @@ package jp.ken.interiorShop.presentation.EmpFormModel;
 
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.List;
 
 import lombok.Data;
 
@@ -10,22 +11,18 @@ import lombok.Data;
 @Data
 public class EmpOrderFormModel implements Serializable {
 	//注文ID
-	private int order_Id;
+	private int orderId;
 	
 	//注文氏名
-	private String user_name;
+	private String userName;
 	
 	//注文日
-	private Date order_date;
+	private Date orderDate;
 	
 	//住所
-	private String order_address;
+	private String address;
 	
-	//注文内容
-	private int total;
+	//注文内容(注文詳細：商品名×個数)
+	private List<EmpOrderDetailsFormModel> order_details;
 	
-	
-	
-	
-
 }

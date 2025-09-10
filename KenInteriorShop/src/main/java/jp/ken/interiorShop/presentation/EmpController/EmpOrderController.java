@@ -20,7 +20,7 @@ public class EmpOrderController {
 	
 	
 	@GetMapping
-	public String toLogin(HttpSession session, Model model) throws Exception{
+	public String toEmpOrder(HttpSession session, Model model) throws Exception{
 		
 		//セッションからログイン情報取得
 		EmpOrderFormModel empOrderFormModel = (EmpOrderFormModel)session.getAttribute("empLogin");
