@@ -14,7 +14,7 @@ public class EmpOrderService {
 	private EmpOrderRepository empOrderRepository;
 	//private ModelMapper modelMapper;
 	
-	//注文一覧取得
+	//注文一覧検索
 	public List<EmpOrderFormModel> searchOrder() throws Exception{
 		return empOrderRepository.getOrderList();
 	}

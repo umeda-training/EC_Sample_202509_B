@@ -13,8 +13,19 @@
 		</header>
 		<main>
 			<div id="form-area">
-				
+				<form th:action="@{/empOrder}" th:object="${empOrderForm}" method="post">
+					<div class="form-row">
+						<label for="order_id">注文ID</label>
+						<input th:field="*{order_id}" th:value="${order_id}">
+						<label for="user_name">氏名</label>
+						<input th:field="*{user_name}" th:value="${user_name}">
+						<label for="order_date">注文日付</label>
+						<input th:field="*{order_date}" th:value="${order_date}">
+						<input type="submit" value="検索する" name="emp" class="btn">
+					</div>
+				</form>
 			</div>
+			
 		
 		</main>
 		<footer>フッターhtml作成して読み込む</footer>
