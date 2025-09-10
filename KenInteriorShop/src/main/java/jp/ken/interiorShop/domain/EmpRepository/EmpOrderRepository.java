@@ -22,12 +22,14 @@ public class EmpOrderRepository {
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("SELECT");
-		sb.append("SELECT");
-		sb.append("SELECT");
-		sb.append("SELECT");
-		sb.append("SELECT");
-		sb.append("SELECT");
-		sb.append("SELECT");
+		sb.append(" o.order_id,");
+		sb.append(" o.user_name,");
+		sb.append(" o.order_date,");
+		sb.append(" d.item_cd,");
+		sb.append(" d.quantity");
+		sb.append("FROM orders o");
+		sb.append("INNER JOIN order_details d ON o.order_id = d.order_id");
+		sb.append("ORDER BY o.order_id");
 		String sql = sb.toString();
 		
 		//BeanPropertyRowMapper<>で、SQLの結果セット（ResultSet）をJavaのオブジェクトに自動でマッピング
