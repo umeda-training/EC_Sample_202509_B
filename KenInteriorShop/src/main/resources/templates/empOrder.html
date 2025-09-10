@@ -7,23 +7,46 @@
 </head>
 <body>
 	<div id="wrapper">
-		<header>
-			ヘッダーhtml作成して読み込む
-		
-		</header>
+		<!--共通ヘッダー読み込み-->
+		<header　th:insert="~{header :: header_area}"></header>
 		<main>
 			<div id="form-area">
 				<form th:action="@{/empOrder}" th:object="${empOrderForm}" method="post">
+					<!--検索欄-->
 					<div class="form-row">
-						<label for="order_id">注文ID</label>
-						<input th:field="*{order_id}" th:value="${order_id}">
-						<label for="user_name">氏名</label>
-						<input th:field="*{user_name}" th:value="${user_name}">
-						<label for="order_date">注文日付</label>
-						<input th:field="*{order_date}" th:value="${order_date}">
+						<label for="orderId">注文ID</label>
+						<input th:field="*{orderId}" th:value="${orderId}">
+						<label for="userName">氏名</label>
+						<input th:field="*{userName}" th:value="${userName}">
+						<label for="orderDate">注文日付</label>
+						<input th:field="*{orderDate}" th:value="${orderDate}">
 						<input type="submit" value="検索する" name="emp" class="btn">
 					</div>
 				</form>
+				<!--注文情報がないときのメッセージ表示-->
+				<div th:if="${#lists.isEmpty(order_list)}">
+					<p>注文情報がありません</p>
+				</div>
+				<!--注文一覧表示-->
+				<table border="1" th:if="!${#lists.isEmpty(order_list)}">
+					<thead>
+						<tr>
+							<th>注文ID</th>
+							<th>氏名</th>
+							<th>注文日付</th>
+							<th>住所</th>
+							<th>注文内容</th>
+							<th>操作</th>
+						</tr>
+					</thead>
+					<tbody>
+						<th:each="empOrder : ${order_list}">
+							<tr>
+								<td th:text="${empOrder."></td>
+							</tr>
+						</th:each>
+					</tbody>
+				</table>
 			</div>
 			
 		
