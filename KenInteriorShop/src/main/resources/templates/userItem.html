@@ -14,8 +14,9 @@
 			<h1>商品詳細</h1>
 		</header>
 		<main>
-			
-			<h1>遷移成功</h1>
+			<form th:action="@{/user/main}" th:method="get">
+				<input type="submit" value="前に戻る">
+			</form>
 			<th:block th:each="items : ${toDetailItem}">
 				<span th:text="${items.itemName}"></span>
 				<span th:text="${items.itemPrice}"></span>
