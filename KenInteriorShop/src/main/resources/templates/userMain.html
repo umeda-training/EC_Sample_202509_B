@@ -2,7 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>メインメニュー</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
 
@@ -18,25 +18,50 @@
 				
 				<form th:action="@{/user/main}" th:object="${form_list}" method="post">
 					<div id="search">
-						
+						<input type="text" placeholder="検索ワードをいれてください">
+						<input type="submit" value="検索" class="btn">
+						<input type="button" value="絞り込み" class="btn" id="filterbtn">
 					</div>
 					
 					<div id="category">
-						
+						<input type="submit" value="テーブル" class="categorybtn">
+						<input type="submit" value="椅子" class="categorybtn">
+						<input type="submit" value="本棚" class="categorybtn">
+						<input type="submit" value="ベッド" class="categorybtn">
+						<input type="submit" value="テーブルランプ" class="categorybtn">
+						<input type="submit" value="ソファ" class="categorybtn">
 					</div>
 				</form>
 				
-				<div id="item-list">
-					
-				</div>
+				<form th:if="${item_list != null}" th:action="@{/user/item}"  method="get">
+					<div class="subtitle">
+						<h2>商品一覧</h2>
+					</div>
+					<th:block th:each="items : ${item_list}">
+						<div>
+							<a>
+								<table id="item-list">
+									<td><img src="img/${items.itemCd}" alt="${items.itemName}"></td>
+									<td><span th:text="${items.itemName}"></span></td>
+									<td><span th:text="${items.itemPrice}"></span></td>
+									<td><span th:text="${items.releaseDate}"></span></td>
+								</table>
+							</a>
+						</div>
+					</th:block>
+				</form>
 				
 				<div id="next-item">
-					
+					<div class="subtitle">
+						<h2>次月販売予定</h2>
+					</div>
 				</div>
 				
 			</div>
 		</main>
-		<footer></footer>
+		<footer>
+			<small>フッター</small>
+		</footer>
 	</div>
 </body>
 </html>

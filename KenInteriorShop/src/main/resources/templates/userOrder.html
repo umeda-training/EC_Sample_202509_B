@@ -1,3 +1,5 @@
+<!--担当：内川 めっちゃざっくり作成-->
+
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
@@ -8,9 +10,53 @@
 <body>
 	<div id="wrapper">
 		<header>
-		
+			<h1>注文画面</h1>
 		</header>
 		<main>
+			<form th:action="@{/userOrder}" th:object="${userOrderForm}" method="post">
+				
+				
+			<h3>支払方法選択</h3>
+				<div>
+					<label>
+						<input type="radio" name="payment" value="cash" th:checked="{payment}">
+						代金引換
+					</label><br>
+					<label>
+						<input type="radio" name="payment" value="card" th:checked="{payment}">
+						クレジットカード
+					</label><br>
+					<label for="cardNumber">
+						カード番号
+						<input type="text" id="cardNumber" name="cardNumber" th:value="*{cardNumber}" placeholder="カード番号　0000 0000 0000 0000">
+					</label><br>
+					<label for="cardExpiration">
+						有効期限
+						<input type="text" id="cardExpiration" name="cardExpiration" th:value="*{cardExpiration}" placeholder="MM/YY">
+					</label><br>
+					<label for="cardSecurity">
+						セキュリティコード
+						<input type="text" id="cardSecurity" name="cardSecurity" th:value="*{cardSecurity}" placeholder="000">
+					</label><br>
+				</div>
+			
+			<h3>お届け先情報</h3>
+				<div>
+					<label for="userPost">郵便番号</label>
+					<input type="text" id="userPost" name="userPost" th:value="*{userPost}">
+				</div>
+				<div>
+					<label for="userAddress">住所</label>
+					<input type="text" id="userAddress" name="userAddress" th:value="*{userAddress}">
+				</div>
+				<div>
+					<input type="submit" name="confirmed" value="注文確定" class="btn">
+				</div>
+				<div>
+					<a th:href="@{/cart}">カートに戻る</a>
+				</div>
+
+			</form>
 		
 		</main>
 		<footer></footer>

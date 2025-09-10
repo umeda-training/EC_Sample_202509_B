@@ -37,7 +37,7 @@ public class UserMainRepository {
 	public List<ItemEntity> getItemList(LocalDate date) throws SQLException{
 		
 		//引数の日にちを変換
-		String searchDate = date.toString();
+		//String searchDate = date.toString();
 		//共通のSQL分の作成
 		StringBuilder sb = createCommonSQL();
 		
@@ -51,7 +51,8 @@ public class UserMainRepository {
 		String sql = sb.toString();
 		
 		//パラメータに本日の日にち挿入し、SQL分実行
-		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, searchDate); 
+		//List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper);
+		List<ItemEntity> itemList = jdbcTemplate.query(sql, userItemMapper, date); 
 		
 		return itemList;
 	}

@@ -16,23 +16,23 @@ import lombok.Data;
 public class ItemModel implements Serializable {
 	
 	//商品コード兼画像ファイル名
-	private String item_cd;       
+	private String itemCd;       
 	
 	//商品名
-	private String item_name;
+	private String itemName;
 	
 	//在庫数
-	private int item_stock;
+	private int itemStock;
 	
 	//商品単価
-	private int item_price;
+	private int itemPrice;
 	
 	//商品カテゴリ
-	private String item_category;
+	private String itemCategory;
 	
 	//商品情報
-	private String item_info;
+	private String itemInfo;
 	
 	//発売日
-	private Date release_date;
+	private Date releaseDate;
 }

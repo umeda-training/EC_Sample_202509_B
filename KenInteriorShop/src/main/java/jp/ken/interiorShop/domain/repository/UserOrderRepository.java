@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import jp.ken.interiorShop.domain.entity.UserOrderEntity;
 import jp.ken.interiorShop.domain.mapper.UserOrderMapper;
-
+//担当：内川
 @Repository
 public class UserOrderRepository {
 	
@@ -40,6 +40,7 @@ public class UserOrderRepository {
 		return null;
 	}
 	
+
 
 }
 
