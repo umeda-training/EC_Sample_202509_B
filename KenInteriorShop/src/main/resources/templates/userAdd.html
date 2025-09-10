@@ -74,6 +74,7 @@
 							<select th:field="*{gender}">
 								<option th:each="genders : ${genderMap}" th:value="${genders.key}" th:text="${genders.value}"></option>
 							</select>
+							<span th:text="${genderError}" class="errors"></span>
 						</div>
 					</div>
 
@@ -88,7 +89,8 @@
 							</select>&nbsp;月
 							<select th:field="*{birthDay}">
 								<option th:each="days : ${listBirthDays}" th:value="${days.data}" th:text="${days.label}"></option>
-							</select>&nbsp;日
+							</select>&nbsp;日&nbsp;
+							<span th:text="${birthError}" class="errors"></span>
 						</div>
 					</div>
 

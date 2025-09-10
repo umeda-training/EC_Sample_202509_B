@@ -17,42 +17,46 @@ public class UserAddFormModel {
 	
 	// 名前
 	@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
-	private String addName;
+	private String name;
 	
 	// フリガナ
 	@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
-	private String addKana;
+	private String kana;
 	
 	// 性別
 	@NotEmpty(message = "性別を選択してください", groups = ValidGroup1.class)
-	private String addGender;
+	private String gender;
 	
 	// 生年月日
 	@NotEmpty(message = "生年月日を選択してください", groups = ValidGroup1.class)
-	private String addBirth;
+	private String birthYear;
+	@NotEmpty(message = "生年月日を選択してください", groups = ValidGroup1.class)
+	private String birthMonth;
+	@NotEmpty(message = "生年月日を選択してください", groups = ValidGroup1.class)
+	private String birthDay;
 	
 	// 郵便番号
 	@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
-	private String addPost;
+	private String post;
 	
 	// 住所
 	@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
-	private String addAddress;
+	private String address;
 	
 	// 電話番号
 	@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
-	private String addPhone;
+	private String phone;
 
 	// メールアドレス
 	@NotEmpty(message = "メールアドレスは必須です", groups = ValidGroup1.class)
 	@Email(message = "メールアドレスの形式が無効です", groups = ValidGroup2.class)
 	@UniqueEmail(message = "すでに登録済みのメールアドレスです", groups = ValidGroup3.class)
-	private String addMail;
+	private String mail;
 	
 	// パスワード
 	@NotEmpty(message = "パスワードは必須です", groups = ValidGroup1.class)
 	@Pattern(regexp = "^[a-zA-Z0-9]{8}$", message = "パスワードは英数字8桁を入力してください"
 		, groups = ValidGroup2.class)
-	private String addPass;
+	private String password;
 
 }
