@@ -1,7 +1,6 @@
 
 package jp.ken.interiorShop.presentation.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -14,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
+import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 import jp.ken.interiorShop.presentation.formmodel.UserOrderFormModel;
 import jp.ken.interiorShop.service.UserOrderService;
 
@@ -30,39 +30,40 @@ public class UserOrderController {
 	
 	@GetMapping(value = "/userOrder")
 	public String toOrder(HttpSession session, Model model) {
+		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
+		model.addAttribute("userOrderFormModel", userOrderFormModel);
 		
 		/**
 		 * ログイン情報がない場合は、ログイン画面へリダイレクトする処理
 		 * セッション情報を使用してログイン状態の確認
 		 */
-		 /*
-		  *  = session.getAttribute("");
-		  *  if(login == null){
-		  *  	return "/login";
-		  *  }
-		  *  
-		  */
+		UserLoginFormModel userLoginFormModel = (UserLoginFormModel) session.getAttribute("UserLoginForm");
+		if(userLoginFormModel == null) {
+			return "/userLogin";
+		}
 		
 		/**
 		 * カートに情報がない場合、カート画面へリダイレクト
 		 */
 		@SuppressWarnings("unchecked")
-		List<ItemModel> item_list = new ArrayList<ItemModel>();
+		List<ItemModel> item_list = (List<ItemModel>) model.getAttribute("item_list");
 		model.getAttribute("item_list");
 		if(item_list == null || item_list.isEmpty()) {
 		return "redirect:/cart";
 		} 
+		
 		/**
 		 * ログイン済み、カートに商品が入っている場合
 		 * 初期値としてログインユーザーの郵便番号と住所を表示させる
 		 * セッションに登録されている会員の住所と郵便番号を表示する
 		 */
-		/*List<ItemModel> itemList = (List<ItemModel>) session.getAttribute("item_list");
+		@SuppressWarnings("unchecked")
+		List<ItemModel> itemList = (List<ItemModel>) session.getAttribute("item_list");
 			if(itemList != null || !itemList.isEmpty()) {
 				//セッションからログインユーザーの郵便番号と住所を取得
 				return "/userOrder";
 			}
-		*/
+		
 		
 		
 		return "/userOrder";

@@ -1,10 +1,10 @@
-<!--担当：内川 めっちゃざっくり作成-->
+<!--担当：内川 作成-->
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>注文確認画面</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -13,49 +13,50 @@
 			<h1>注文画面</h1>
 		</header>
 		<main>
-			<form th:action="@{/userOrder}" th:object="${userOrderForm}" method="post">
+			<form th:action="@{/userOrder}" th:object="${userOrderFormModel}" method="post">
 				
+				<!--商品画像表示-->
 				
 			<h3>支払方法選択</h3>
-				<div>
-					<label>
-						<input type="radio" name="payment" value="cash">
-						代金引換
-					</label><br>
-					<label>
-						<input type="radio" name="payment" value="card">
-						クレジットカード
-					</label><br>
-					<label for="cardNumber">
-						カード番号
-						<input type="text" id="cardNumber" name="cardNumber" th:value="*{cardNumber}" placeholder="カード番号　0000 0000 0000 0000">
-					</label><br>
-					<label for="cardExpiration">
-						有効期限
-						<input type="text" id="cardExpiration" name="cardExpiration" th:value="*{cardExpiration}" placeholder="MM/YY">
-					</label><br>
-					<label for="cardSecurity">
-						セキュリティコード
-						<input type="text" id="cardSecurity" name="cardSecurity" th:value="*{cardSecurity}" placeholder="000">
-					</label><br>
+				<div area="form-area">
+					<div class="form-row">
+					<label for="cash">代金引換</label>
+						<input type="radio" th:field="*{payment}" value="cash">
+					</div>
+					<div class="form-row">
+					<label for="card">クレジットカード</label>
+						<input type="radio" th:field="*{payment}" value="card">
+					</div>
+					<div class="form-row">
+						<label for="cardNumber">カード番号</label>
+							<input th:field="*{cardNumber}"  size=50 placeholder="カード番号 0000 0000 0000 0000">
+					</div>
+					<div class="form-row">
+						<label for="expiration">有効期限</label>
+							<input th:field="*{expiration}"  placeholder="MM/YY">
+					
+					<label for="securityCode">セキュリティコード</label>
+						<input th:field="*{securityCode}"  placeholder="000">
+					</div>
 				</div>
 			
 			<h3>お届け先情報</h3>
-				<div>
-					<label for="userPost">郵便番号</label>
-					<input type="text" id="userPost" name="userPost" th:value="*{userPost}">
+				<div area = "form-area">
+					<div class="form-row">
+						<label for="userPost">郵便番号</label>
+						<input th:field="*{userPost}" >
+					</div>
+					<div class="form-row">
+						<label for="userAddress">住所</label>
+						<input th:field="*{userAddress}" >
+					</div>
+					<div>
+						<input type="submit" name="confirmed" value="注文確定" class="btn">
+					</div>
+					<div>
+						<a th:href="@{/cart}">カートに戻る</a>
+					</div>
 				</div>
-				<div>
-					<label for="userAddress">住所</label>
-					<input type="text" id="userAddress" name="userAddress" th:value="*{userAddress}">
-				</div>
-				<div>
-					<input type="submit" name="confirmed" value="注文確定" class="btn">
-				</div>
-				<div>
-					<a th:href="@{/cart}">カートに戻る</a>
-				</div>
-
 			</form>
 		
 		</main>
