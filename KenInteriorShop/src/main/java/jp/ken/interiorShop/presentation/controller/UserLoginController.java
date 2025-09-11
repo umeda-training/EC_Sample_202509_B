@@ -61,7 +61,6 @@ public class UserLoginController {
 		if(result.hasErrors()) {
 			return "userLogin";
 		} else {
-//			List<UserLoginFormModel> formList = userSearchService.getLogin(userLoginForm);
 			UserLoginFormModel form = userSearchService.getLogin(loginForm);
 			String tmpMail = form.getUserMail();
 			if(tmpMail == null || tmpMail.isEmpty()) {
@@ -81,24 +80,6 @@ public class UserLoginController {
 			userLoginForm.setUserMail(form.getUserMail());
 			userLoginForm.setUserPass(form.getUserPass());
 			model.addAttribute("UserLoginForm", userLoginForm);
-/*
-			if(formList == null || formList.isEmpty()) {
-				model.addAttribute("errors", "メールアドレスまたはパスワードが違います");
-				return "userLogin";
-			}
-			//セッションオブジェクトに格納
-			userLoginForm.setLoginId(formList.getFirst().getLoginId());
-			userLoginForm.setLoginName(formList.getFirst().getLoginName());
-			userLoginForm.setLoginKana(formList.getFirst().getLoginKana());
-			userLoginForm.setLoginGender(formList.getFirst().getLoginGender());
-			userLoginForm.setLoginBirth(formList.getFirst().getLoginBirth());
-			userLoginForm.setLoginPost(formList.getFirst().getLoginPost());
-			userLoginForm.setLoginAddress(formList.getFirst().getLoginAddress());
-			userLoginForm.setLoginPhone(formList.getFirst().getLoginPhone());
-			userLoginForm.setLoginMail(formList.getFirst().getLoginMail());
-			userLoginForm.setLoginPass(formList.getFirst().getLoginPass());
-			model.addAttribute("UserLoginForm", userLoginForm);
-*/
 		}
 		
 		// ログイン成功時、遷移元の画面に遷移
