@@ -12,7 +12,7 @@
 		<header>注文管理画面</header>
 		<main>
 			<div id="form-area">
-				<form th:action="@{/order}" th:object="${empOrderForm}" method="post">
+				<form th:action="@{/empOrder}" th:object="${empOrderForm}" method="post">
 					<!--検索欄-->
 					<div class="form-row">
 						<label for="orderId">注文ID</label>
@@ -42,7 +42,7 @@
 					</thead>
 					<tbody>
 					<tr th:each="order : ${order_list}">
-						<form th:action="@{/order/update}" method="post">
+						<form th:action="@{/empOrder/update}" method="post">
 							<!--注文ID欄-->
 							<td th:text="${order.orderId}"></td>
 							<!--氏名欄-->
@@ -57,8 +57,8 @@
 							<!--注文内容欄-->
 							<td>
 								<span th:each="detail : ${order.order_details}">
-									<span th:text="${d.itemCd}"></span>×
-									<span th:text="${d.quantity}"></span>個<br>
+									<span th:text="${detail.itemCd}"></span>×
+									<span th:text="${detail.quantity}"></span>個<br>
 								</span>
 							</td>
 							<!--操作欄-->
@@ -66,7 +66,7 @@
 								<input type="submit" value="変更" class="btn">
 							</td>
 						</form>
-						<form th:action="@{/order/cancel}" method="post" onsubmit="return confirm('本当に取り消しますか？');">
+						<form th:action="@{/empOrder/cancel}" method="post" onsubmit="return confirm('本当に取り消しますか？');">
 							<input type="hidden" name="orderId" th:value="${order.orderId}">
 								<td>
 									<input type="submit" value="注文取消" class="btn">
