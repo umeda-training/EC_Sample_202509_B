@@ -21,7 +21,7 @@ import jp.ken.interiorShop.service.UserMainService;
 //担当者：竹内
 
 @Controller
-@SessionAttributes({"toDetailItem", "cartList"})
+@SessionAttributes({"toDetailItem", "cartList","detailItem"})
 public class UserItemController {
 	
 	/*カート用のセッションオブジェクトの生成
@@ -65,7 +65,7 @@ public class UserItemController {
 	 */
 	@SuppressWarnings("unused")
 	@GetMapping(value = "/user/item")
-	public String itemDetail(Model model,HttpServletRequest request) throws SQLException {
+	public String itemDetail(Model model,HttpSession session,HttpServletRequest request) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "商品詳細");
 		//取得した商品情報格納先
@@ -85,6 +85,9 @@ public class UserItemController {
 		if(toDetail != null) {
 			//取得した商品コードから商品を検索
 			toDetailItem = userMainService.search(toDetail);
+			
+			//セッションチェック用(自分用)
+			model.addAttribute("toDetailItem", toDetailItem.get(0));
 			
 			//セッションに格納
 			ItemModel detailItem = null;
@@ -130,8 +133,9 @@ public class UserItemController {
 		}
 		//押下された商品コードをCartFormModelに保管
 		String select = request.getParameter("select");
+		ItemModel detailItem = userMainService.search(select).get(0);
 		cartFormModel.setSelectItem(select);
-		cartFormModel.setSelectItemdetail(userMainService.search(select).get(0));
+		cartFormModel.setSelectItemdetail(detailItem);
 		
 		//カートに追加を押した情報をカートに追加
 		cartList.add(cartFormModel);
@@ -139,7 +143,11 @@ public class UserItemController {
 		//追加後、セッションに登録
 		session.setAttribute("cartList", cartList);
 		
-		return "redirect:/user/item";
+		//再表示用
+		model.addAttribute("detailItem", detailItem);
+		model.addAttribute("stockList", getNumberList(1, detailItem.getItemStock()));
+		
+		return "userItem";
 	}
 	
 	@PostMapping(value ="/user/item", params = "back")
@@ -149,8 +157,9 @@ public class UserItemController {
 	}
 	
 	@PostMapping(value ="/user/item", params = "check")
-	public String toCart() {
-		
-		return "redirect:/cart";
+	public String toCart(Model model,HttpSession session) {
+		model.addAttribute("cartList", session.getAttribute("cartList"));
+		System.out.println("カートへ");
+		return "cart";
 	}
 }
