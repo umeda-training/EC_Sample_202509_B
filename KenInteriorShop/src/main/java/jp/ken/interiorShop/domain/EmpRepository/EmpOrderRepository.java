@@ -51,15 +51,52 @@ public class EmpOrderRepository {
         }
         return orderList;
     }
+    
+    /*
+     * 検索されあ注文一覧を取得する
+     */
+/*    public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
+    	String sql = "SELECT order_id, user_name, order_date FROM orders ORDER BY order_id";
+    	
+    	
+    	
+    	// 注文ごとの商品明細を追加で取得してセット
+        for (EmpOrderFormModel order : orderList) {
+            List<EmpOrderDetailsFormModel> details = jdbcTemplate.query(
+                "SELECT item_cd, quantity FROM order_details WHERE order_id = ?",
+                (rs, rowNum) -> {
+                	EmpOrderDetailsFormModel detail = new EmpOrderDetailsFormModel();
+                    detail.setItemCd(rs.getString("item_cd"));
+                    detail.setQuantity(rs.getInt("quantity"));
+                    return detail;
+                },
+                order.getOrderId()
+            );
+            order.setOrder_details(details);
+        }
+        return orderList;
+    }
+*/
+
 
     /**
      * 注文の住所を更新する
      */
-    public void updateAddress(int orderId, String newAddress) {
+    public void updateOrder(int orderId, String newAddress) {
         String sql = "UPDATE orders SET address = ? WHERE order_id = ?";
         jdbcTemplate.update(sql, newAddress, orderId);
     }
-	
+    
+	/*
+	 * 注文を取り消す
+	 */
+    public void deleteOrder(int orderId) {
+    	//注文詳細テーブル
+    	jdbcTemplate.update("DELETE FROM order_details WHERE order_id = ?", orderId);
+    	//注文テーブル
+    	jdbcTemplate.update("DELETE FROM orders WHERE order_id = ?", orderId);
+    }
+    
 	/*	
 	//注文一覧取得用メソッド
 	public List<EmpOrderFormModel> getOrderList() throws Exception{
