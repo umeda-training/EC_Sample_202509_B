@@ -6,25 +6,28 @@ package jp.ken.interiorShop.presentation.EmpFormModel;
 
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
+import jp.ken.interiorShop.common.validator.groups.ValidGroup1;
+import jp.ken.interiorShop.common.validator.groups.ValidGroup2;
 import lombok.Data;
 
 @Data
 public class EmpLoginFormModel {
 	
 		// 従業員名
-		private String empLoginName;
+		private String empName;
 		
 		// フリガナ
-		private String empLoginKana;
+		private String empKana;
 
 		// 従業員ID
-		@NotEmpty(message = "従業員IDは必須です")
+		@NotEmpty(message = "必須入力です")
 		private String empId;
 		
 		// パスワード
-		@NotEmpty(message = "必須入力です")
-		@Pattern(regexp ="^[a-zA-Z0-9]{8}$", message = "英数字8桁を入力してください")
-		private String password;
+		@NotEmpty(message = "必須入力です", groups = ValidGroup1.class)
+		@Pattern(regexp ="^[a-zA-Z0-9]{8}$", message = "英数字8桁を入力してください"
+				, groups = ValidGroup2.class)
+		private String empPass;
 	
 	
 }
