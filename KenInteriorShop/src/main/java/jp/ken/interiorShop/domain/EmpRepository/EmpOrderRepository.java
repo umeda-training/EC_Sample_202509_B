@@ -2,21 +2,65 @@ package jp.ken.interiorShop.domain.EmpRepository;
 
 import java.util.List;
 
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import jp.ken.interiorShop.presentation.EmpFormModel.EmpOrderDetailsFormModel;
 import jp.ken.interiorShop.presentation.EmpFormModel.EmpOrderFormModel;
+
 
 //担当：濱邊
 //注文管理に関するDBアクセスを担当するリポジトリクラス
-
 @Repository
 public class EmpOrderRepository {
 	
 	private JdbcTemplate jdbcTemplate;
 	
+	public EmpOrderRepository(JdbcTemplate jdbcTemplate) {
+		this.jdbcTemplate = jdbcTemplate;
+	}
+	
+	 /**
+     * 注文一覧を取得する
+     */
+    public List<EmpOrderFormModel> getOrderList() {
+        String sql = "SELECT order_id, user_name, order_address, order_date FROM orders ORDER BY order_id";
+
+        List<EmpOrderFormModel> orderList = jdbcTemplate.query(sql, (rs, rowNum) -> {
+        	EmpOrderFormModel order = new EmpOrderFormModel();
+            order.setOrderId(rs.getInt("order_id"));
+            order.setUserName(rs.getString("user_name"));
+            order.setAddress(rs.getString("order_address"));
+            order.setOrderDate(rs.getDate("order_date"));
+            return order;
+        });
+
+        // 注文ごとの商品明細を追加で取得してセット
+        for (EmpOrderFormModel order : orderList) {
+            List<EmpOrderDetailsFormModel> details = jdbcTemplate.query(
+                "SELECT item_cd, quantity FROM order_details WHERE order_id = ?",
+                (rs, rowNum) -> {
+                	EmpOrderDetailsFormModel detail = new EmpOrderDetailsFormModel();
+                    detail.setItemCd(rs.getString("item_cd"));
+                    detail.setQuantity(rs.getInt("quantity"));
+                    return detail;
+                },
+                order.getOrderId()
+            );
+            order.setOrder_details(details);
+        }
+        return orderList;
+    }
+
+    /**
+     * 注文の住所を更新する
+     */
+    public void updateAddress(int orderId, String newAddress) {
+        String sql = "UPDATE orders SET address = ? WHERE order_id = ?";
+        jdbcTemplate.update(sql, newAddress, orderId);
+    }
+	
+	/*	
 	//注文一覧取得用メソッド
 	public List<EmpOrderFormModel> getOrderList() throws Exception{
 		
@@ -40,6 +84,7 @@ public class EmpOrderRepository {
 		
 		return orderList;
 	}
+	*/
 	
 
 }
