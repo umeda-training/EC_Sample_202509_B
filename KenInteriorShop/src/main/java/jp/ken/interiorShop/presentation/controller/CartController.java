@@ -22,6 +22,7 @@ public class CartController {
 	@GetMapping(value = "/cart")
 	public String toCart(HttpSession session, Model model) {
 		@SuppressWarnings("unchecked")
+		//ItemModel⇒CartItemModelに変更予定
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
 		if(cart == null || cart.isEmpty()) {
 			cart = new ArrayList<>();
@@ -42,6 +43,7 @@ public class CartController {
 	public String toUpdateCart(HttpSession session, Model model) {
 		
 		@SuppressWarnings("unchecked")
+		//ItemModel⇒CartItemModelに変更予定
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
 		
 		return "cart"; 
