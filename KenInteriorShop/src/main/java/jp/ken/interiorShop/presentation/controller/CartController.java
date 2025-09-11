@@ -19,11 +19,26 @@ public class CartController {
 	/*
 	 * セッションからカート情報を取得
 	 */
-	@GetMapping(value = "/cart")
+	@GetMapping(value = "/user/cart")
 	public String toCart(HttpSession session, Model model) {
-		@SuppressWarnings("unchecked")
+		/*@SuppressWarnings("unchecked")
 		//ItemModel⇒CartItemModelに変更予定
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
+		*/
+		List<ItemModel> cart = new ArrayList<>();
+		//仮データ
+		ItemModel item1 = new ItemModel();
+		item1.setItemName("机");
+		item1.setItemStock(5);
+		item1.setItemPrice(5000);
+		cart.add(item1);
+		
+		ItemModel item2 = new ItemModel();
+		item2.setItemName("イス");
+		item2.setItemStock(10);
+		item2.setItemPrice(800);
+		cart.add(item2);
+		
 		if(cart == null || cart.isEmpty()) {
 			cart = new ArrayList<>();
 			model.addAttribute("message", "カートに商品を追加してください");
@@ -39,14 +54,15 @@ public class CartController {
 	 * 
 	 */
 	
-	@PostMapping(value = "/cart")
+	@PostMapping(value = "/user/cart")
 	public String toUpdateCart(HttpSession session, Model model) {
-		
+		/*
 		@SuppressWarnings("unchecked")
 		//ItemModel⇒CartItemModelに変更予定
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
+		*/
 		
-		return "cart"; 
+		return "user/order"; 
 	}
 
 }

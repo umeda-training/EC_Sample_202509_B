@@ -13,7 +13,7 @@
 			<h1>注文画面</h1>
 		</header>
 		<main>
-			<form th:action="@{/userOrder}" th:object="${userOrderFormModel}" method="post">
+			<form th:action="@{/user/order}" th:object="${userOrderFormModel}" method="post">
 				
 				<!--商品画像表示-->
 				
@@ -64,7 +64,7 @@
 						<input type="submit" name="confirmed" value="注文確定" class="btn">
 					</div>
 					<div>
-						<a th:href="@{/cart}">カートに戻る</a>
+						<a th:href="@{/user/cart}">カートに戻る</a>
 					</div>
 				</div>
 			</form>
