@@ -21,7 +21,7 @@
 						<input th:field="*{userName}" th:value="${param.userName}">
 						<label for="orderDate">注文日付</label>
 						<input th:field="*{orderDate}" th:value="${param.orderDate}">
-						<input type="submit" value="検索する" name="emp" class="btn">
+						<input type="submit" value="検索" class="btn">
 					</div>
 				</form>
 				<!--注文情報がないときのメッセージ表示-->
@@ -31,20 +31,47 @@
 				<!--注文一覧表示-->
 				<table border="1" th:if="!${#lists.isEmpty(order_list)}">
 					<thead>
-						<tr>
-							<th>注文ID</th>
-							<th>氏名</th>
-							<th>注文日付</th>
-							<th>住所</th>
-							<th>注文内容</th>
-							<th>操作</th>
-						</tr>
+					<tr>
+						<th>注文ID</th>
+						<th>氏名</th>
+						<th>注文日付</th>
+						<th>住所</th>
+						<th>注文内容</th>
+						<th>操作</th>
+					</tr>
 					</thead>
 					<tbody>
 					<tr th:each="order : ${order_list}">
-						<td th:text="${order.orderId}"></td>
-						<td th:text="${order.userName}"></td>
-						<td th:text="${#dates.format(order.orderDate, 'yyyy/MM/dd')}"></td>
+						<form th:action="@{/order/update}" method="post">
+							<!--注文ID欄-->
+							<td th:text="${order.orderId}"></td>
+							<!--氏名欄-->
+							<td th:text="${order.userName}"></td>
+							<!--注文日付欄-->
+							<td th:text="${#dates.format(order.orderDate, 'yyyy/MM/dd')}"></td>
+							<!--住所欄-->
+							<td>
+								<input type="hidden" name="orderId" th:value="${order.orderId}">
+								<input type="text" name="address" th:value="${order.address}">
+							</td>
+							<!--注文内容欄-->
+							<td>
+								<span th:each="detail : ${order.order_details}">
+									<span th:text="${d.itemCd}"></span>×
+									<span th:text="${d.quantity}"></span>個<br>
+								</span>
+							</td>
+							<!--操作欄-->
+							<td>
+								<input type="submit" value="変更" class="btn">
+							</td>
+						</form>
+						<form th:action="@{/order/cancel}" method="post" onsubmit="return confirm('本当に取り消しますか？');">
+							<input type="hidden" name="orderId" th:value="${order.orderId}">
+								<td>
+									<input type="submit" value="注文取消" class="btn">
+								</td>
+						</form>
 					</tr>
 					</tbody>
 				</table>

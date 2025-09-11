@@ -1,5 +1,6 @@
 package jp.ken.interiorShop.EmpService;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
@@ -23,12 +24,20 @@ public class EmpOrderService {
 		return empOrderRepository.getOrderList();
 	}
 	
+	//注文一覧検索
+		public List<EmpOrderFormModel> searchOrder(int orderId, String userName, Date orderDate) throws Exception{
+			return empOrderRepository.getOrderList();
+		}
+	
 	//住所変更
 	public void updateOrder(int orderId, String newAddress) throws Exception{
-		empOrderRepository.updateAddress(orderId, newAddress);
+		empOrderRepository.updateOrder(orderId, newAddress);
 	}
 	
 	//注文取消し
+	public void deleteOrder(int orderId) throws Exception{
+		empOrderRepository.deleteOrder(orderId);
+	}
 	
 
 }
