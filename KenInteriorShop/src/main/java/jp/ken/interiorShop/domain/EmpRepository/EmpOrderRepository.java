@@ -55,7 +55,7 @@ public class EmpOrderRepository {
     /*
      * 検索されあ注文一覧を取得する
      */
-/*    public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
+    /*    public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
     	String sql = "SELECT order_id, user_name, order_date FROM orders ORDER BY order_id";
     	
     	

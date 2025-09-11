@@ -34,7 +34,7 @@ public class EmpOrderController {
 	}
 	
 	
-	@GetMapping("/order")
+	@GetMapping("/empOrder")
 	public String toEmpOrder(HttpSession session, Model model) throws Exception{
 		
 		//セッションからログイン情報取得
@@ -54,7 +54,7 @@ public class EmpOrderController {
 	}
 	
 	/* 検索機能	 */
-	@PostMapping("/order")
+	@PostMapping("/emp/order")
 	public String searchOrder(@RequestParam int orderId,
 			@RequestParam String userName,
 			@RequestParam Date orderDate,
