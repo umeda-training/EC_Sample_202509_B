@@ -1,11 +1,8 @@
 package jp.ken.interiorShop.presentation.EmpController;
 
 /*
-
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import java.util.List;
+ * 松田
+ 
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -16,14 +13,22 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
+import jp.ken.interiorShop.EmpService.EmpLoginService;
+import jp.ken.interiorShop.common.validator.groups.ValidGroupOrder;
 import jp.ken.interiorShop.presentation.EmpFormModel.EmpLoginFormModel;
-import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 
 @Controller
 @RequestMapping(value="/emp/Login")
 @SessionAttributes("EmpLoginForm")
 public class EmpLoginController {
+	
+		private EmpLoginService empLoginService;
+	
+	public EmpLoginController(EmpLoginService empLoginService) {
+		this.empLoginService = empLoginService;
+	}
 	
 	@ModelAttribute("EmpLoginForm")
 	public EmpLoginFormModel setupEmpLoginForm() {
@@ -31,38 +36,38 @@ public class EmpLoginController {
 	}
 	
 	@GetMapping
-	public String toEmpLogin() {
-		EmpLoginFormModel empLoginForm = new EmpLoginFormModel();
-		model.addAttribute("empLoginForm", empLoginForm);
+	public String toEmpLogin(SessionStatus status, Model model) {
+		EmpLoginFormModel form = new EmpLoginFormModel();
+		model.addAttribute("empLoginFormModel", form);
 		return "empLogin";
 	}
 	
 	
 	@PostMapping
-	public String loginMembers(@Validated @ModelAttribute EmpLoginFormModel empLoginForm,
+	public String loginMembers(@Validated(ValidGroupOrder.class) @ModelAttribute EmpLoginFormModel loginForm,
 			BindingResult result, Model model) throws Exception {
-		String btn = (String) model.getAttribute("btn");
-		if(btn != null) {
-			return "empAdd";
-		}
+
 	
 		if(result.hasErrors()) {
 			return "empLogin";
 		} else {
-			List<UserLoginFormModel> formList = empLoginService.getLogin(empLoginForm);
-			
-			if(formList == null || formList.isEmpty()) {
+			EmpLoginFormModel form = empLoginService.getLogin(loginForm);
+			String tmpId = form.getEmpId();
+			if(tmpId == null || tmpId.isEmpty()) {
 				model.addAttribute("errors", "従業員IDまたはパスワードが違います");
 				return "empLogin";
 			}
 			
-			empLoginForm.setLoginName(formList.getFirst().getLoginName());
-			empLoginForm.setLoginKana(formList.getFirst().getLoginKana());
-			empLoginForm.setLoginEmpId(formList.getFirst().getLoginEmpId());
-			empLoginForm.setLoginPass(formList.getFirst().getLoginPass());
-			model.addAttribute("EmpLoginForm", EmpLoginForm);
+			EmpLoginFormModel empLoginForm = new EmpLoginFormModel();
+			empLoginForm.setEmpName(form.getEmpName());
+			empLoginForm.setEmpKana(form.getEmpKana());
+			empLoginForm.setEmpId(form.getEmpId());
+			empLoginForm.setEmpPass(form.getEmpPass());
+			model.addAttribute("EmpLoginForm", empLoginForm);
 		}
 		
+		
+		return "redirect:/emp/main";
 	}
 		
 }
