@@ -7,28 +7,55 @@ import java.util.List;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jp.ken.interiorShop.presentation.formmodel.CartFormModel;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
+import jp.ken.interiorShop.presentation.formmodel.ItemStockDataModel;
 import jp.ken.interiorShop.service.UserMainService;
 
 //担当者：竹内
 
 @Controller
-@SessionAttributes("toDetailItem")
+@SessionAttributes({"toDetailItem", "cartList"})
 public class UserItemController {
 	
+	/*カート用のセッションオブジェクトの生成
+	@ModelAttribute("cartList")
+	public ArrayList<CartFormModel> setupCartList{
+		return new ArrayList<CartFormModel>();
+	}
+	*/
+	
 	//コンストラクタ用
-		private UserMainService userMainService;
+	private UserMainService userMainService;
+	
+	/** 
+	 * デフォルトコンストラクタ
+	 */
+	
+	public UserItemController(UserMainService userMainService) {
+		this.userMainService = userMainService;
+	}
 		
-		/** 
-		 * デフォルトコンストラクタ
-		 */
-		
-		public UserItemController(UserMainService userMainService) {
-			this.userMainService = userMainService;
+	/* 在庫数リスト作成
+	 * メソッド名：getNumberList()
+	 * 引数：1～在庫数
+	 * 戻り値：List<ItemStockDataModel>型の数値リスト
+	 * 動作詳細：1～在庫数のデータを作る、他にセレクトリスト作るときに併用可
+	 */
+	
+	private List<ItemStockDataModel> getNumberList(int start, int end){
+		List<ItemStockDataModel> numberList = new ArrayList<ItemStockDataModel>();
+		for(int i = start; i <= end ; i++) {
+			numberList.add(new ItemStockDataModel(Integer.toString(i), Integer.toString(i)));
 		}
+		return numberList;
+	}
 	
 	/* Get通信
 	 * メソッド名：()
@@ -36,49 +63,83 @@ public class UserItemController {
 	 * 戻り値：＊＊
 	 * 動作詳細：商品情報を表示
 	 */
+	@SuppressWarnings("unused")
 	@GetMapping(value = "/user/item")
 	public String itemDetail(Model model,HttpServletRequest request) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "商品詳細");
 		//取得した商品情報格納先
-				List<ItemModel> toDetailItem = new ArrayList<ItemModel>();
-				
-				//押下した商品情報取得
-				
-				String toDetail = request.getParameter("detail");
-				
-				if(toDetail != null) {
-					//取得した商品コードからデータを取得
-					
-					toDetailItem = userMainService.search(toDetail);
-					
-					
-					//セッションに格納
-					model.addAttribute("toDetailItem", toDetailItem);
-					
-					//タイトル用
-					model.addAttribute("pagetitle", toDetailItem.get(0).getItemName());
-					return "userItem";
-				} else {
-				return "userMain";
-				}
-		/*
-		//押下された商品情報の取得
-		ItemModel toDetailItem = (ItemModel) model.getAttribute("toDetailItem"); 
+		List<ItemModel> toDetailItem = new ArrayList<ItemModel>();
 		
-		//商品情報の有無の分岐
-		if(toDetailItem == null) {
+		//押下した商品コード取得
+		String toDetail = request.getParameter("detail");
+		
+		//商品コードが送られてなかったらメインにリダイレクト
+		if(toDetailItem == null && !toDetail.isEmpty()) {
 			return "redirect:/userMain";
 		}
+		//カートオブジェクト作成・セッション登録
+		List<CartFormModel> cartList = new ArrayList<CartFormModel>();
+		model.addAttribute("cartList", cartList);
+		
+		if(toDetail != null) {
+			//取得した商品コードから商品を検索
+			toDetailItem = userMainService.search(toDetail);
+			
+			//セッションに格納
+			model.addAttribute("toDetailItem", toDetailItem);
+			
+			//注文用のオブジェクトを登録
+			model.addAttribute("cartFormModel", new CartFormModel());
+			
+			//在庫数を表示用
+			int itemStock = toDetailItem.get(0).getItemStock();
+			model.addAttribute("stockList", getNumberList(1, itemStock));
+			
+			//タイトル用
+			model.addAttribute("pagetitle", toDetailItem.get(0).getItemName());
+			
+			return "userItem";
+			} else {
+				return "userMain";
+			}
+	}
+	
+	/* Post通信
+	 * メソッド名：()
+	 * 引数：＊＊
+	 * 戻り値：＊＊
+	 * 動作詳細：カートに商品を追加、在庫数の選択、前に戻る
+	 */
+	
+	@PostMapping(value ="/user/item", params = "cart")
+	public String insertCart(@ModelAttribute CartFormModel cartFormModel, Model model,HttpSession session) {
+		//セッションからカート情報を取得
+		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
+		
+		//カート情報が空の場合、オブジェクト作成
+		if(cartList == null) {
+			cartList = new ArrayList<CartFormModel>();
+		}
+		
+		//カートに追加を押した情報をカートに追加
+		cartList.add(cartFormModel);
+		
+		//追加後、セッションに登録
+		session.setAttribute("cartList", cartList);
 		
 		return "userItem";
-		*/
 	}
-	/*
-	@PostMapping(value ="/user/item")
+	
+	@PostMapping(value ="/user/item", params = "back")
+	public String toBack() {
+		
+		return "redirect:userMain";
+	}
+	
+	@PostMapping(value ="/user/item", params = "check")
 	public String toCart() {
 		
-		//前に戻る時セッションオブジェクト破壊しといて
-	
-	}*/
+		return "redirect:cart";
+	}
 }
