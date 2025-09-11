@@ -21,23 +21,24 @@
 						<th>金額</th>
 						<th>削除</th>
 					</tr>
-					<th:block th:each="item : ${cart}">
+					<th:block th:each="item : ${cartList}">
 							<tr>
-								<td th:text="${item.itemName}">商品名</td>
+								<td th:text="${item.selectItemdetail.itemName}">商品名</td>
 								<td>
-									<img th:src="|../image/${item.itemCd}.png|" th:alt="${item.itemName}">
+									<img th:src="|../image/${item.selectItemdetail.itemCd}.png|" th:alt="${item.selectItemdetail.itemName}">
 								</td>
 								<td>
 									 <button class="decrease">−</button>
-									 <span class="counter" th:text="${item.itemStock}"></span>
+									 <span class="counter" th:text="${item.buyAmount}"></span>
 									 <button class="increase">＋</button>
 								</td>
-								<td class="price" th:text="${item.itemPrice * item.itemStock}"></td>
+								<td class="price" th:text="${item.selectItemdetail.itemPrice * item.buyAmount}"></td>
 								<td>
 									<form th:action="@{/user/cart}" method="post">
 										<input type="submit" value="削除" name="delete">
 									</form>	
 								</td>
+								<span th:text="${item.selectItemdetail.itemStock}" style="visibility: hidden;" class="stock"></span> <!-- -->
 							</tr>
 					</th:block>
 			</table>
@@ -66,9 +67,12 @@
 			const increaseBtn = row.querySelector(".increase");
 			const counterSpan = row.querySelector(".counter");
 			const priceCell = row.querySelector(".price");
+			const stock = row.querySelector(".stock");  
 			
 			if (decreaseBtn && increaseBtn && counterSpan && priceCell) {
 				let count = parseInt(counterSpan.textContent);
+				let stockCoount = parseInt(stock.textContent); 
+				console.log(stockCoount); 
 				const unitPrice = parseInt(priceCell.textContent) / count || 0;
 				
 				decreaseBtn.addEventListener("click", () => {
@@ -81,10 +85,12 @@
 				});
 				
 				increaseBtn.addEventListener("click", () => {
+				if(count < stockCoount){  
 					count++;
 					counterSpan.textContent = count;
 					priceCell.textContent = unitPrice * count;
 					updateTotal();
+					}
 				});
 			}
 		});

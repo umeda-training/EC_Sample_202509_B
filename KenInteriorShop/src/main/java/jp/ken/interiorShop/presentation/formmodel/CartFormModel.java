@@ -13,5 +13,5 @@ public class CartFormModel {
 	
 	private ItemModel selectItemdetail;
 	
-	private String buyAmount;
+	private int buyAmount;
 }
