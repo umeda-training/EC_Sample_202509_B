@@ -62,7 +62,7 @@ public class CartController {
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
 		*/
 		
-		return "user/order"; 
+		return "cart"; 
 	}
 
 }
