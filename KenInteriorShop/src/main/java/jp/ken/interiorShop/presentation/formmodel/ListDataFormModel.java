@@ -3,6 +3,8 @@ package jp.ken.interiorShop.presentation.formmodel;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+//作成 : 西村
+//プルダウンリスト表示
 @Data
 @AllArgsConstructor
 public class ListDataFormModel {
