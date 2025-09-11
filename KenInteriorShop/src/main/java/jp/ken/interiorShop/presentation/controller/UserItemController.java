@@ -21,7 +21,7 @@ import jp.ken.interiorShop.service.UserMainService;
 //担当者：竹内
 
 @Controller
-@SessionAttributes({"toDetailItem", "cartList"})
+@SessionAttributes({"toDetailItem", "cartList","detailItem"})
 public class UserItemController {
 	
 	/*カート用のセッションオブジェクトの生成
@@ -65,7 +65,7 @@ public class UserItemController {
 	 */
 	@SuppressWarnings("unused")
 	@GetMapping(value = "/user/item")
-	public String itemDetail(Model model,HttpServletRequest request) throws SQLException {
+	public String itemDetail(Model model,HttpSession session,HttpServletRequest request) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "商品詳細");
 		//取得した商品情報格納先
@@ -86,11 +86,20 @@ public class UserItemController {
 			//取得した商品コードから商品を検索
 			toDetailItem = userMainService.search(toDetail);
 			
+			//セッションチェック用(自分用)
+			model.addAttribute("toDetailItem", toDetailItem.get(0));
+			
 			//セッションに格納
-			model.addAttribute("toDetailItem", toDetailItem);
+			ItemModel detailItem = null;
+			for(ItemModel tmpItem : toDetailItem) {
+				detailItem = tmpItem;
+			}
+			
+			model.addAttribute("detailItem", detailItem);
 			
 			//注文用のオブジェクトを登録
-			model.addAttribute("cartFormModel", new CartFormModel());
+			CartFormModel cartFormModel = new CartFormModel();
+			model.addAttribute("cartFormModel", cartFormModel);
 			
 			//在庫数を表示用
 			int itemStock = toDetailItem.get(0).getItemStock();
@@ -101,7 +110,7 @@ public class UserItemController {
 			
 			return "userItem";
 			} else {
-				return "userMain";
+				return "redirect:/userMain";
 			}
 	}
 	
@@ -113,7 +122,8 @@ public class UserItemController {
 	 */
 	
 	@PostMapping(value ="/user/item", params = "cart")
-	public String insertCart(@ModelAttribute CartFormModel cartFormModel, Model model,HttpSession session) {
+	public String insertCart(@ModelAttribute CartFormModel cartFormModel, Model model,HttpSession session, 
+			HttpServletRequest request) throws SQLException {
 		//セッションからカート情報を取得
 		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
 		
@@ -121,6 +131,11 @@ public class UserItemController {
 		if(cartList == null) {
 			cartList = new ArrayList<CartFormModel>();
 		}
+		//押下された商品コードをCartFormModelに保管
+		String select = request.getParameter("select");
+		ItemModel detailItem = userMainService.search(select).get(0);
+		cartFormModel.setSelectItem(select);
+		cartFormModel.setSelectItemdetail(detailItem);
 		
 		//カートに追加を押した情報をカートに追加
 		cartList.add(cartFormModel);
@@ -128,18 +143,23 @@ public class UserItemController {
 		//追加後、セッションに登録
 		session.setAttribute("cartList", cartList);
 		
+		//再表示用
+		model.addAttribute("detailItem", detailItem);
+		model.addAttribute("stockList", getNumberList(1, detailItem.getItemStock()));
+		
 		return "userItem";
 	}
 	
 	@PostMapping(value ="/user/item", params = "back")
 	public String toBack() {
 		
-		return "redirect:userMain";
+		return "redirect:/userMain";
 	}
 	
 	@PostMapping(value ="/user/item", params = "check")
-	public String toCart() {
-		
-		return "redirect:cart";
+	public String toCart(Model model,HttpSession session) {
+		model.addAttribute("cartList", session.getAttribute("cartList"));
+		System.out.println("カートへ");
+		return "cart";
 	}
 }
