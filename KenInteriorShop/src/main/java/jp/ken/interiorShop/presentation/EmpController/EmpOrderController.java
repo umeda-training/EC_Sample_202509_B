@@ -1,5 +1,6 @@
 package jp.ken.interiorShop.presentation.EmpController;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -39,9 +40,9 @@ public class EmpOrderController {
 		//セッションからログイン情報取得
 		EmpOrderFormModel empOrderFormModel = (EmpOrderFormModel)session.getAttribute("empLogin");
 		
-		//ログイン情報がない場合
+		//ログインチェック
 		if(empOrderFormModel == null) {
-		//ユーザーを /empLogin にリダイレクト（ログイン画面へ移動）させる。
+			//ログイン情報がない場合
 		return "redirect:/empLogin";
 		}else {
 			//ログイン情報がある場合
@@ -50,8 +51,20 @@ public class EmpOrderController {
 			model.addAttribute("order_list", orderList);
 			return "order_list";
 		}
-		
-		
+	}
+	
+	/* 検索機能	 */
+	@PostMapping("/order")
+	public String searchOrder(@RequestParam int orderId,
+			@RequestParam String userName,
+			@RequestParam Date orderDate,
+			HttpSession session) throws Exception{
+		//ログインチェック
+		if(session.getAttribute("empLogin") == null) {
+			return "redirect:/empLogin";
+		}
+		empOrderService.searchOrder(orderId, userName, orderDate);
+		return "order_list";
 	}
 	
 	/*
@@ -73,13 +86,27 @@ public class EmpOrderController {
 	
 	/** 注文住所変更 */
     @PostMapping("/update")
-    public String updateAddress(@RequestParam int orderId,
+    public String updateOrder(@RequestParam int orderId,
                                 @RequestParam String address,
                                 HttpSession session)throws Exception {
+    	//ログインチェック
         if (session.getAttribute("empLogin") == null) {
             return "redirect:/empLogin";
         }
         empOrderService.updateOrder(orderId, address);
+        return "redirect:/emp/order";
+    }
+    
+    
+    
+    /** 注文取消し */
+    @PostMapping("/cancel")
+    public String deleteOrder(@RequestParam int orderId,HttpSession session)throws Exception {
+    	//ログインチェック
+        if (session.getAttribute("empLogin") == null) {
+            return "redirect:/empLogin";
+        }
+        empOrderService.deleteOrder(orderId);
         return "redirect:/emp/order";
     }
 

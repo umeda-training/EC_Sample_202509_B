@@ -28,7 +28,7 @@ public class UserOrderController {
 		this.userOrderService = userOrderService;
 	}
 	
-	@GetMapping(value = "/userOrder")
+	@GetMapping(value = "/user/order")
 	public String toOrder(HttpSession session, Model model) {
 		/*
 		 * ログイン情報の取得
@@ -38,6 +38,7 @@ public class UserOrderController {
 		if(userLoginFormModel == null) {
 			return "redirect:/user/login";
 		}
+		
 		/**
 		 * カートに情報の取得
 		 * カート情報がない場合、カート画面へリダイレクト
@@ -46,7 +47,7 @@ public class UserOrderController {
 		//ItemModel⇒CartItemModelに変更する予定
 		List<ItemModel> item_list = (List<ItemModel>) session.getAttribute("item_list");
 		if(item_list == null || item_list.isEmpty()) {
-			return "redirect:/cart";
+			return "redirect:/user/cart";
 		} 
 		/**
 		 * ログイン済み、カートに商品が入っている場合
@@ -54,16 +55,16 @@ public class UserOrderController {
 		 * セッションに登録されている会員の住所と郵便番号を表示する
 		 */
 		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
-		//userOrderFormModel.setUserPost(userLoginFormModel.getLoginPost());
-		//userOrderFormModel.setUserAddress(userLoginFormModel.getLoginAddress());
+		userOrderFormModel.setUserPost(userLoginFormModel.getUserPost());
+		userOrderFormModel.setUserAddress(userLoginFormModel.getUserAddress());
 		
 		model.addAttribute("userOrderFormModel", userOrderFormModel);
 		model.addAttribute("itemList", item_list);
 		
-		return "userOrder";
+		return "user/order";
 	}
 	
-	@PostMapping(value = "/userOrder")
+	@PostMapping(value = "/user/order")
 	public String toOrder(@Validated @ModelAttribute UserOrderFormModel userOrderFormModel, BindingResult result, Model model) throws Exception {
 		
 		

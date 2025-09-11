@@ -12,8 +12,8 @@
 			<h1>カート画面</h1>
 		</header>
 		<main>
-			<span text="${message}"></span>
-			<table>
+			<span th:text="${message}"></span>
+			<table border="1">
 					<tr>
 						<th>商品名</th>
 						<th>商品画像</th>
@@ -28,59 +28,71 @@
 									<img th:src="|../image/${item.itemCd}.png|" th:alt="${item.itemName}">
 								</td>
 								<td>
-									 <button id="decrease">−</button>
-									 <span class="counter" th:text="${item.quantity}"></span>
-									 <button id="increase">＋</button>
+									 <button class="decrease">−</button>
+									 <span class="counter" th:text="${item.itemStock}"></span>
+									 <button class="increase">＋</button>
 								</td>
-								<td th:text="${}"></td>
+								<td class="price" th:text="${item.itemPrice * item.itemStock}"></td>
 								<td>
-									<form th:action="@{/cart}" method="post">
-									<input type="submit" value="削除" name="delete">
+									<form th:action="@{/user/cart}" method="post">
+										<input type="submit" value="削除" name="delete">
 									</form>	
 								</td>
 							</tr>
 					</th:block>
 			</table>
-			<strong>合計金額：</strong>
+			<strong>合計金額：</strong><span id="total">0</span> 円
 			
+			<form th:action="@{/user/order}" method="get">
+				<input type="submit" value="注文へ進む">
+			</form>
+
+<script>
+	function updateTotal() {
+		const priceCells = document.querySelectorAll(".price");
+		let total = 0;
+		priceCells.forEach(cell => {
+			total += parseInt(cell.textContent) || 0;
+		});
+		document.getElementById("total").textContent = total;
+		}
+		
+	document.addEventListener("DOMContentLoaded", () => {
+		updateTotal();
+		
+		const rows = document.querySelectorAll("table tr");
+		rows.forEach(row => {
+			const decreaseBtn = row.querySelector(".decrease");
+			const increaseBtn = row.querySelector(".increase");
+			const counterSpan = row.querySelector(".counter");
+			const priceCell = row.querySelector(".price");
 			
-			
-	<!--お試し↓↓↓↓↓-->	
-	<hr>お試し	
-	<div>
-    <button id="decrease">−</button>
-    <span class="counter" id="counter">0</span>
-    <button id="increase">＋</button>
-    <button id="reset">リセット</button>
-  </div>
-
-  <script>
-    const counter = document.getElementById('counter');
-    const decreaseBtn = document.getElementById('decrease');
-    const increaseBtn = document.getElementById('increase');
-    const resetBtn = document.getElementById('reset');
-
-    let count = 0;
-
-    decreaseBtn.addEventListener('click', () => {
-      count--;
-      counter.textContent = count;
-    });
-
-    increaseBtn.addEventListener('click', () => {
-      count++;
-      counter.textContent = count;
-    });
-
-    resetBtn.addEventListener('click', () => {
-      count = 0;
-      counter.textContent = count;
-    });
-  </script>
-
+			if (decreaseBtn && increaseBtn && counterSpan && priceCell) {
+				let count = parseInt(counterSpan.textContent);
+				const unitPrice = parseInt(priceCell.textContent) / count || 0;
+				
+				decreaseBtn.addEventListener("click", () => {
+					if (count > 1) {
+						count--;
+						counterSpan.textContent = count;
+						priceCell.textContent = unitPrice * count;
+						updateTotal();
+					}
+				});
+				
+				increaseBtn.addEventListener("click", () => {
+					count++;
+					counterSpan.textContent = count;
+					priceCell.textContent = unitPrice * count;
+					updateTotal();
+				});
+			}
+		});
+	});
+</script>
 			
 		</main>
-		<footer></footer>
+		<footer><small>フッター</small></footer>
 	</div>
 </body>
 </html>
