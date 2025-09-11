@@ -1,4 +1,4 @@
-<!--担当：内川 作成-->
+<!--担当：内川 -->
 
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
@@ -18,25 +18,33 @@
 				<!--商品画像表示-->
 				
 			<h3>支払方法選択</h3>
-				<div area="form-area">
+				<div id="form-area">
 					<div class="form-row">
-					<label for="cash">代金引換</label>
-						<input type="radio" th:field="*{payment}" value="cash">
+					<label>代金引換
+						<input type="radio" name="payment" th:field="*{payment}" value="cash">
+					</label>
 					</div>
 					<div class="form-row">
-					<label for="card">クレジットカード</label>
-						<input type="radio" th:field="*{payment}" value="card">
+					<label>クレジットカード
+						<input type="radio" name="payment" th:field="*{payment}" value="card">
+					</label>
 					</div>
 					<div class="form-row">
-						<label for="cardNumber">カード番号</label>
+						<label for="cardNumber">カード番号
 							<input th:field="*{cardNumber}"  size=50 placeholder="カード番号 0000 0000 0000 0000">
+						</label>
+							<span th:if="${#fields.hasErrors('cardNumber')}" th:errors="*{cardNumber}" class="errors"></span>
+
 					</div>
 					<div class="form-row">
-						<label for="expiration">有効期限</label>
+						<label for="expiration">有効期限
 							<input th:field="*{expiration}"  placeholder="MM/YY">
-					
-					<label for="securityCode">セキュリティコード</label>
+						</label>
+							<span th:if="${#fields.hasErrors('expiration')}" th:errors="*{expiration}" class="errors"></span>			
+					<label for="securityCode">セキュリティコード
 						<input th:field="*{securityCode}"  placeholder="000">
+					</label>
+						<span th:if="${#fields.hasErrors('securityCode')}" th:errors="*{securityCode}" class="errors"></span>
 					</div>
 				</div>
 			
@@ -45,10 +53,12 @@
 					<div class="form-row">
 						<label for="userPost">郵便番号</label>
 						<input th:field="*{userPost}" >
+						<span th:if="${#fields.hasErrors('userPost')}" th:errors="*{userPost}" class="errors"></span>						
 					</div>
 					<div class="form-row">
 						<label for="userAddress">住所</label>
 						<input th:field="*{userAddress}" >
+						<span th:if="${#fields.hasErrors('userAddress')}" th:errors="*{userAddress}" class="errors"></span>
 					</div>
 					<div>
 						<input type="submit" name="confirmed" value="注文確定" class="btn">
