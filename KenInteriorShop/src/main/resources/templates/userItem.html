@@ -12,6 +12,7 @@
 	<div id="wrapper">
 		<header>
 			<h1>商品詳細</h1>
+			<span th:text="${cartListNumber}"></span>
 		</header>
 		<main>
 			<form th:action="@{/user/item}" th:object="${cartFormModel}" th:method="post">

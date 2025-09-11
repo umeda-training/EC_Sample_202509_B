@@ -147,13 +147,17 @@ public class UserItemController {
 		model.addAttribute("detailItem", detailItem);
 		model.addAttribute("stockList", getNumberList(1, detailItem.getItemStock()));
 		
+		//カートの個数を表示させる
+		String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
+		model.addAttribute("cartListNumber", cartListNumber);
 		return "userItem";
 	}
 	
 	@PostMapping(value ="/user/item", params = "back")
-	public String toBack() {
-		
-		return "redirect:/userMain";
+	public String toBack(Model model,HttpSession session) {
+		System.out.println("前に戻る");
+		model.addAttribute("cartList", session.getAttribute("cartList"));
+		return "redirect:/user/main";
 	}
 	
 	@PostMapping(value ="/user/item", params = "check")
