@@ -1,7 +1,5 @@
 package jp.ken.interiorShop.presentation.formmodel;
 
-import java.util.List;
-
 import lombok.Data;
 
 /*
@@ -11,8 +9,9 @@ import lombok.Data;
 @Data
 public class CartFormModel {
 	
-	private List<ItemModel> itemList;
+	private String selectItem;
 	
+	private ItemModel selectItemdetail;
 	
 	private String buyAmount;
 }
