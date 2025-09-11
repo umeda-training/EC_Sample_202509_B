@@ -87,10 +87,16 @@ public class UserItemController {
 			toDetailItem = userMainService.search(toDetail);
 			
 			//セッションに格納
-			model.addAttribute("toDetailItem", toDetailItem);
+			ItemModel detailItem = null;
+			for(ItemModel tmpItem : toDetailItem) {
+				detailItem = tmpItem;
+			}
+			
+			model.addAttribute("detailItem", detailItem);
 			
 			//注文用のオブジェクトを登録
-			model.addAttribute("cartFormModel", new CartFormModel());
+			CartFormModel cartFormModel = new CartFormModel();
+			model.addAttribute("cartFormModel", cartFormModel);
 			
 			//在庫数を表示用
 			int itemStock = toDetailItem.get(0).getItemStock();
@@ -101,7 +107,7 @@ public class UserItemController {
 			
 			return "userItem";
 			} else {
-				return "userMain";
+				return "redirect:/userMain";
 			}
 	}
 	
@@ -113,7 +119,8 @@ public class UserItemController {
 	 */
 	
 	@PostMapping(value ="/user/item", params = "cart")
-	public String insertCart(@ModelAttribute CartFormModel cartFormModel, Model model,HttpSession session) {
+	public String insertCart(@ModelAttribute CartFormModel cartFormModel, Model model,HttpSession session, 
+			HttpServletRequest request) throws SQLException {
 		//セッションからカート情報を取得
 		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
 		
@@ -121,6 +128,10 @@ public class UserItemController {
 		if(cartList == null) {
 			cartList = new ArrayList<CartFormModel>();
 		}
+		//押下された商品コードをCartFormModelに保管
+		String select = request.getParameter("select");
+		cartFormModel.setSelectItem(select);
+		cartFormModel.setSelectItemdetail(userMainService.search(select).get(0));
 		
 		//カートに追加を押した情報をカートに追加
 		cartList.add(cartFormModel);
@@ -128,18 +139,18 @@ public class UserItemController {
 		//追加後、セッションに登録
 		session.setAttribute("cartList", cartList);
 		
-		return "userItem";
+		return "redirect:/user/item";
 	}
 	
 	@PostMapping(value ="/user/item", params = "back")
 	public String toBack() {
 		
-		return "redirect:userMain";
+		return "redirect:/userMain";
 	}
 	
 	@PostMapping(value ="/user/item", params = "check")
 	public String toCart() {
 		
-		return "redirect:cart";
+		return "redirect:/cart";
 	}
 }

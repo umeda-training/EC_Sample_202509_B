@@ -16,20 +16,30 @@
 		<main>
 			<form th:action="@{/user/item}" th:object="${cartFormModel}" th:method="post">
 				<input type="submit" name="back" value="前に戻る">
-				<th:block th:each="items : ${toDetailItem}">
-					<span th:text="${items.itemName}"></span>
-					<span th:text="${items.itemPrice}"></span>
-					<span th:text="${items.releaseDate}"></span>
-					<img th:src="@{|/img/${items.itemCd}.png|}" th:alt="${items.itemName}">
-				</th:block>
-				<p>在庫数：
+				<div id="itemIntro">
+					<p>
+						商品名：<span th:text="${detailItem.itemName}"></span>
+					</p>
+					<p>
+						<span th:text="${detailItem.itemPrice}"></span>
+					</p>
+					<p>
+						<span th:text="${detailItem.releaseDate}"></span>
+					</p>
+					<p>
+						<span th:text="${detailItem.itemCd}"></span>
+					</p>
+				</div>
+				<img th:src="@{|/img/${detailItem.itemCd}.png|}" th:alt="${detailItem.itemName}">
+				<p>
+					在庫数：
 					<select name="selectStock" th:field="*{buyAmount}">
 						<option th:each="stock : ${stockList}" th:value="${stock.data}" th:text="${stock.label}">
 						</option>
 					</select>
 				</p>
 				<input type="submit" name="cart" value="カートに追加">
-				<input type="hidden" th:field="*{itemList}" th:value="${toDetailItem}">
+				<input type="hidden" name="select" th:value="${detailItem.itemCd}">
 				<div>
 					<input type="submit" name="check" value="カートを見る">
 				</div>
