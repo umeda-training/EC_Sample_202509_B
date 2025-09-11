@@ -112,6 +112,7 @@ public class UserAddController {
 		int numberOfRow = userAddService.addUser(userAddForm);
 		if(numberOfRow == 0) {
 			model.addAttribute("error", "登録に失敗しました");
+			setModel(userAddForm, model);
 			return "userAdd";
 		}
 		// ポップアップウィンドウ表示
