@@ -21,14 +21,15 @@ import jp.ken.interiorShop.service.UserMainService;
 
 //担当者：竹内
 @Controller
-@SessionAttributes("toDetailItem")
+@SessionAttributes({"toDetailItem", "cartItemList"})
 public class UserMainController {
 	
-	//セッションオブジェクトの生成
+	//商品詳細用のセッションオブジェクトの生成
 	@ModelAttribute("toDetailItem")
 	public ItemModel setupItemModel() {
 		return new ItemModel();
 	}
+	
 	
 	//コンストラクタ用
 	private UserMainService userMainService;
