@@ -8,18 +8,19 @@
 <body>
 	<div id="wrapper">
 		<!--共通ヘッダー読み込み-->
-		<header　th:insert="~{header :: header_area}"></header>
+		<!--<header　th:insert="~{header :: header_area}"></header>-->
+		<header>注文管理画面</header>
 		<main>
 			<div id="form-area">
-				<form th:action="@{/empOrder}" th:object="${empOrderForm}" method="post">
+				<form th:action="@{/order}" th:object="${empOrderForm}" method="post">
 					<!--検索欄-->
 					<div class="form-row">
 						<label for="orderId">注文ID</label>
-						<input th:field="*{orderId}" th:value="${orderId}">
+						<input th:field="*{orderId}" th:value="${param.orderId}">
 						<label for="userName">氏名</label>
-						<input th:field="*{userName}" th:value="${userName}">
+						<input th:field="*{userName}" th:value="${param.userName}">
 						<label for="orderDate">注文日付</label>
-						<input th:field="*{orderDate}" th:value="${orderDate}">
+						<input th:field="*{orderDate}" th:value="${param.orderDate}">
 						<input type="submit" value="検索する" name="emp" class="btn">
 					</div>
 				</form>
@@ -40,11 +41,11 @@
 						</tr>
 					</thead>
 					<tbody>
-						<th:each="empOrder : ${order_list}">
-							<tr>
-								<td th:text="${empOrder."></td>
-							</tr>
-						</th:each>
+					<tr th:each="order : ${order_list}">
+						<td th:text="${order.orderId}"></td>
+						<td th:text="${order.userName}"></td>
+						<td th:text="${#dates.format(order.orderDate, 'yyyy/MM/dd')}"></td>
+					</tr>
 					</tbody>
 				</table>
 			</div>

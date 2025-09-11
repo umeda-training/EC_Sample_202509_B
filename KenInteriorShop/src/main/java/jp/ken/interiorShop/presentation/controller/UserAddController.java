@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import org.springframework.stereotype.Controller;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import jp.ken.interiorShop.common.validator.groups.ValidGroupOrder;
 import jp.ken.interiorShop.presentation.formmodel.ListDataFormModel;
 import jp.ken.interiorShop.presentation.formmodel.UserAddFormModel;
+import jp.ken.interiorShop.service.UserAddService;
 
 /*
  * 作成 : 西村
@@ -26,11 +28,18 @@ import jp.ken.interiorShop.presentation.formmodel.UserAddFormModel;
  */
 @Controller
 public class UserAddController {
+	
+	private UserAddService userAddService;
+	
+	public UserAddController(UserAddService userAddService) {
+		this.userAddService = userAddService;
+	}
+	
 	// 生年月日 リスト情報作成メソッド
 	private List<ListDataFormModel> getNumberList(int start, int end) {
 		List<ListDataFormModel> numList = new ArrayList<ListDataFormModel>();
 		// 初期表示の「---」を挿入
-		numList.add(new ListDataFormModel("", "---"));
+		numList.add(new ListDataFormModel("---", ""));
 		for(int i=start; i<=end; i++) {
 			numList.add(new ListDataFormModel(Integer.toString(i), Integer.toString(i)));
 		}
@@ -42,36 +51,36 @@ public class UserAddController {
 		Map<String, String> genderMap = new LinkedHashMap<String, String>();
 		
 		genderMap.put("", "---");
-		genderMap.put("man", "男");
-		genderMap.put("woman", "女");
-		genderMap.put("no-answer", "未回答");
+		genderMap.put("0", "男");
+		genderMap.put("1", "女");
+		genderMap.put("2", "未回答");
 		
 		return genderMap;
 	}
 	
 	// 性別 選択メソッド
-	private String setGender(String gender) {
-		switch(gender) {
-		case "man":
-			return "男";
-		case "woman":
-			return "女";
-		case "no-answer":
-			return "未回答";
-		default:
-			return "---";
-		}
-	}
+//	private String setGender(String gender) {
+//		switch(gender) {
+//		case "0":
+//			return "男";
+//		case "1":
+//			return "女";
+//		case "2":
+//			return "未回答";
+//		default:
+//			return "---";
+//		}
+//	}
 	
 	@GetMapping(value="/user/add")
 	public String toAdd(Model model) {
 		UserAddFormModel userAddForm = new UserAddFormModel();
 		// 初期選択 (リスト : ---)
-		userAddForm.setGender("---");			// 性別
-		userAddForm.setBirthYear("---");		// 生年月日(年)
-		userAddForm.setBirthMonth("---");	// 生年月日(月)
-		userAddForm.setBirthDay("---");		// 生年月日(日)
-		model.addAttribute("userAddForm", userAddForm);
+		userAddForm.setUserAddGender("---");			// 性別
+		userAddForm.setUserAddBirthYear("---");		// 生年月日(年)
+		userAddForm.setUserAddBirthMonth("---");	// 生年月日(月)
+		userAddForm.setUserAddBirthDay("---");		// 生年月日(日)
+		model.addAttribute("userAddFormModel", userAddForm);
 
 		setModel(userAddForm, model);
 		
@@ -80,7 +89,7 @@ public class UserAddController {
 	
 	@PostMapping(value="/user/add")
 	public String toConfirm(@Validated(ValidGroupOrder.class) @ModelAttribute UserAddFormModel userAddForm, 
-			BindingResult result, Model model) {
+			BindingResult result, Model model) throws Exception {
 //		boolean errFlg = false;	// エラー有無フラグ
 		// バリデーションチェック
 		if(result.hasErrors()) {
@@ -88,30 +97,33 @@ public class UserAddController {
 			return "userAdd";
 		}
 		
-		String tmpGender = userAddForm.getGender();				// 性別
-		String tmpBirthYear = userAddForm.getBirthYear();		// 生年月日(年)
-		String tmpBirthMonth = userAddForm.getBirthMonth();		// 生年月日(月)
-		String tmpBirthDay = userAddForm.getBirthDay();			// 生年月日(日)
+		String tmpBirthYear = userAddForm.getUserAddBirthYear();		// 生年月日(年)
+		String tmpBirthMonth = userAddForm.getUserAddBirthMonth();		// 生年月日(月)
+		String tmpBirthDay = userAddForm.getUserAddBirthDay();			// 生年月日(日)
 		
-		// 性別未選択時
-		if(setGender(tmpGender) == "---") {
-			model.addAttribute("genderError", "性別を選択してください");
-			return "userAdd";
-		}
 		// 生年月日未選択時
-		if(tmpBirthYear.isEmpty() || tmpBirthYear == "---"
-				|| tmpBirthMonth.isEmpty() || tmpBirthMonth == "---"
-				|| tmpBirthDay.isEmpty() || tmpBirthDay == "---") {
+		if(tmpBirthYear.isEmpty() || tmpBirthMonth.isEmpty() || tmpBirthDay.isEmpty()) {
 			model.addAttribute("birthError", "生年月日を選択してください");
+			setModel(userAddForm, model);
 			return "userAdd";
 		}
 		// 入力エラーがなければ、DB会員テーブルに登録
-			// 入力データを引数として登録メソッド呼び出し
-			// ポップアップウィンドウ表示
-		JOptionPane.showMessageDialog(null, "ご登録ありがとうございます。\n"
+		// 登録結果を0(失敗) / 1(成功)で返す
+		int numberOfRow = userAddService.addUser(userAddForm);
+		if(numberOfRow == 0) {
+			model.addAttribute("error", "登録に失敗しました");
+			setModel(userAddForm, model);
+			return "userAdd";
+		}
+		// ポップアップウィンドウ表示
+		System.setProperty("java.awt.headless", "false");
+		JFrame frame = new JFrame();
+		frame.setAlwaysOnTop(true);		//前面に表示させるための処理
+		JOptionPane.showMessageDialog(frame, "ご登録ありがとうございます。\n"
 				+ "会員登録が完了しました。\n");
+		frame.setAlwaysOnTop(false);
 		
-		return "userLogin";
+		return "redirect:/user/login";
 	}
 	
 	public void setModel(@ModelAttribute UserAddFormModel userAddForm, Model model) {

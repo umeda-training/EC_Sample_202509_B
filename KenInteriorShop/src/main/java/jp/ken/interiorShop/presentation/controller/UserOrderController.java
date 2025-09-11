@@ -30,44 +30,37 @@ public class UserOrderController {
 	
 	@GetMapping(value = "/userOrder")
 	public String toOrder(HttpSession session, Model model) {
-		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
-		model.addAttribute("userOrderFormModel", userOrderFormModel);
-		
-		/**
-		 * ログイン情報がない場合は、ログイン画面へリダイレクトする処理
-		 * セッション情報を使用してログイン状態の確認
+		/*
+		 * ログイン情報の取得
+		 * 未ログインの場合はログイン画面へ
 		 */
 		UserLoginFormModel userLoginFormModel = (UserLoginFormModel) session.getAttribute("UserLoginForm");
 		if(userLoginFormModel == null) {
-			return "/userLogin";
+			return "redirect:/user/login";
 		}
-		
 		/**
-		 * カートに情報がない場合、カート画面へリダイレクト
+		 * カートに情報の取得
+		 * カート情報がない場合、カート画面へリダイレクト
 		 */
 		@SuppressWarnings("unchecked")
-		List<ItemModel> item_list = (List<ItemModel>) model.getAttribute("item_list");
-		model.getAttribute("item_list");
+		//ItemModel⇒CartItemModelに変更する予定
+		List<ItemModel> item_list = (List<ItemModel>) session.getAttribute("item_list");
 		if(item_list == null || item_list.isEmpty()) {
-		return "redirect:/cart";
+			return "redirect:/cart";
 		} 
-		
 		/**
 		 * ログイン済み、カートに商品が入っている場合
 		 * 初期値としてログインユーザーの郵便番号と住所を表示させる
 		 * セッションに登録されている会員の住所と郵便番号を表示する
 		 */
-		@SuppressWarnings("unchecked")
-		List<ItemModel> itemList = (List<ItemModel>) session.getAttribute("item_list");
-			if(itemList != null || !itemList.isEmpty()) {
-				//セッションからログインユーザーの郵便番号と住所を取得
-				return "/userOrder";
-			}
+		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
+		//userOrderFormModel.setUserPost(userLoginFormModel.getLoginPost());
+		//userOrderFormModel.setUserAddress(userLoginFormModel.getLoginAddress());
 		
+		model.addAttribute("userOrderFormModel", userOrderFormModel);
+		model.addAttribute("itemList", item_list);
 		
-		
-		return "/userOrder";
-		
+		return "userOrder";
 	}
 	
 	@PostMapping(value = "/userOrder")
@@ -78,35 +71,19 @@ public class UserOrderController {
 		 * 入力エラーがある場合、注文画面へ戻る
 		 */
 		if(result.hasErrors()) {
-			return "/userOrder";
+			return "userOrder";
 		}
-		//代金引換選択→注文確定（DBに情報登録）
+		//代金引換選択→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
 		else if("cash".equals(userOrderFormModel.getPayment())){
 			userOrderService.registUserOrder(userOrderFormModel);
-			return "/complete";
+			return "complete";
 		} 
-		//カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）
+		//カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
 		else if("card".equals(userOrderFormModel.getPayment())){
-			
-			return "/complete";
+			userOrderService.registUserOrder(userOrderFormModel);
+			return "complete";
 		}
-		return null;
-		
-		
-		
-		/**
-		 *代金引換を選択、お届け先にエラーがなければ注文確定
-		 *DBにお届け先の郵便番号と住所を登録
-		**/
-		
-		
-		/**
-		 * クレジットカードを選択した場合。カード情報を入力。お届け先の郵便番号、住所が入力されている
-		 * DBにお届け先の郵便番号と住所を登録
-		 **/
-		
-		
-	
+		return null;	
 	}
 }
 

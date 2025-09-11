@@ -9,9 +9,75 @@
 <body>
 	<div id="wrapper">
 		<header>
-			<h1>カート確認</h1>
+			<h1>カート画面</h1>
 		</header>
 		<main>
+			<span text="${message}"></span>
+			<table>
+					<tr>
+						<th>商品名</th>
+						<th>商品画像</th>
+						<th>数量</th>
+						<th>金額</th>
+						<th>削除</th>
+					</tr>
+					<th:block th:each="item : ${cart}">
+							<tr>
+								<td th:text="${item.itemName}">商品名</td>
+								<td>
+									<img th:src="|../image/${item.itemCd}.png|" th:alt="${item.itemName}">
+								</td>
+								<td>
+									 <button id="decrease">−</button>
+									 <span class="counter" th:text="${item.quantity}"></span>
+									 <button id="increase">＋</button>
+								</td>
+								<td th:text="${}"></td>
+								<td>
+									<form th:action="@{/cart}" method="post">
+									<input type="submit" value="削除" name="delete">
+									</form>	
+								</td>
+							</tr>
+					</th:block>
+			</table>
+			<strong>合計金額：</strong>
+			
+			
+			
+	<!--お試し↓↓↓↓↓-->	
+	<hr>お試し	
+	<div>
+    <button id="decrease">−</button>
+    <span class="counter" id="counter">0</span>
+    <button id="increase">＋</button>
+    <button id="reset">リセット</button>
+  </div>
+
+  <script>
+    const counter = document.getElementById('counter');
+    const decreaseBtn = document.getElementById('decrease');
+    const increaseBtn = document.getElementById('increase');
+    const resetBtn = document.getElementById('reset');
+
+    let count = 0;
+
+    decreaseBtn.addEventListener('click', () => {
+      count--;
+      counter.textContent = count;
+    });
+
+    increaseBtn.addEventListener('click', () => {
+      count++;
+      counter.textContent = count;
+    });
+
+    resetBtn.addEventListener('click', () => {
+      count = 0;
+      counter.textContent = count;
+    });
+  </script>
+
 			
 		</main>
 		<footer></footer>

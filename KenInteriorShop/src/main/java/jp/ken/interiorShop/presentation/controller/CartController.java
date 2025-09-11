@@ -22,6 +22,7 @@ public class CartController {
 	@GetMapping(value = "/cart")
 	public String toCart(HttpSession session, Model model) {
 		@SuppressWarnings("unchecked")
+		//ItemModel⇒CartItemModelに変更予定
 		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
 		if(cart == null || cart.isEmpty()) {
 			cart = new ArrayList<>();
@@ -29,19 +30,23 @@ public class CartController {
 		}
 		model.addAttribute("cart", cart);
 		
-		return "/cart";
+		return "cart";
 	}
 	
 	/*
-	 * セッションからカート情報を取得して、カートの商品を増減
-	 * 
+	 * セッションからカート情報を取得して、カートの商品を削除
+	 * JavaScriptで増減・削除をして、最終的な数字をControllerで受け取る
 	 * 
 	 */
 	
 	@PostMapping(value = "/cart")
 	public String toUpdateCart(HttpSession session, Model model) {
 		
-		return "/cart"; 
+		@SuppressWarnings("unchecked")
+		//ItemModel⇒CartItemModelに変更予定
+		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
+		
+		return "cart"; 
 	}
 
 }
