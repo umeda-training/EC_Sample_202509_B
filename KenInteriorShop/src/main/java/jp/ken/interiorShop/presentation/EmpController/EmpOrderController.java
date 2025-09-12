@@ -34,7 +34,7 @@ public class EmpOrderController {
 	}
 	
 	
-	@GetMapping("/empOrder")
+	@GetMapping(value="/emp/order")
 	public String toEmpOrder(HttpSession session, Model model) throws Exception{
 		
 		//セッションからログイン情報取得
@@ -49,43 +49,45 @@ public class EmpOrderController {
 			List<EmpOrderFormModel> orderList = empOrderService.searchOrder();
 			//モデルに登録
 			model.addAttribute("order_list", orderList);
-			return "order_list";
+			return "empOrder";
 		}
 	}
 	
 	/* 検索機能	 */
-	@PostMapping("/emp/order")
-	public String searchOrder(@RequestParam int orderId,
-			@RequestParam String userName,
-			@RequestParam Date orderDate,
-			HttpSession session) throws Exception{
+	@GetMapping(value="/emp/order", params="search")
+	public String searchOrder(@RequestParam (required = false) int orderId,
+							  @RequestParam (required = false) String userName,
+							  @RequestParam (required = false) Date orderDate,
+							  HttpSession session,
+							  Model model) throws Exception{
+		
 		//ログインチェック
 		if(session.getAttribute("empLogin") == null) {
 			return "redirect:/empLogin";
 		}
-		empOrderService.searchOrder(orderId, userName, orderDate);
-		return "order_list";
-	}
-	
-	/*
-	 public String getOrderList(Model model) throws Exception {
-		List<EmpOrderFormModel> orderList = empOrderService.searchOrder();
-		//モデルに登録
-		model.addAttribute("order_list", orderList);
-				
-		return "order_list";
-	}
-	 */
-	
-	/*
-	@PostMapping
-	public List<OrderModel> searchOrder(int order_id, String user_name, Date order_date){
 		
+		List<EmpOrderFormModel> orderList;
+		
+		//検索条件が空の時、全件取得
+		if(orderId == 0 && (userName == null || userName.isEmpty()) && orderDate == null) {
+			orderList = empOrderService.searchOrder();
+			
+		}else {
+		//検索条件があるとき
+			orderList = empOrderService.searchOrder(orderId, userName, orderDate);
+		}
+		
+		if(orderList.isEmpty()) {
+			model.addAttribute("error", "注文情報がありません。");
+		}
+		
+		model.addAttribute("order_list", orderList);
+		return "empOrder";
 	}
-	*/
 	
+
 	/** 注文住所変更 */
-    @PostMapping("/update")
+    @PostMapping(value="emp/order", params="update")
     public String updateOrder(@RequestParam int orderId,
                                 @RequestParam String address,
                                 HttpSession session)throws Exception {
@@ -100,7 +102,7 @@ public class EmpOrderController {
     
     
     /** 注文取消し */
-    @PostMapping("/cancel")
+    @PostMapping(value="emp/order", params="cancel")
     public String deleteOrder(@RequestParam int orderId,HttpSession session)throws Exception {
     	//ログインチェック
         if (session.getAttribute("empLogin") == null) {
