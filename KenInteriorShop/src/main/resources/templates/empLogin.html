@@ -14,17 +14,17 @@
 		</header>
 		<main>
 					<div id="form-area">
-				<form th:action="@{/emp/login}" th:object="${empLoginForm}" method="post">
+				<form th:action="@{/emp/login}" th:object="${empLoginFormModel}" method="post">
 					
 					<div class="form-row">
-						<label for="loginMail">従業員ID</label>
-						<input th:field="*{empId}" th:value="${empId}">
+						<label for="empId">従業員ID</label>
+						<input th:field="*{empId}" value="${empId}">
 						<span th:if="${#fields.hasErrors('empId')}" th:errors="*{empId}" class="errors"></span>
 					</div>
 					<div class="form-row">
 						<label for="password">パスワード</label>
-						<input th:field="*{password}" th:value="${password}">
-						<span th:if="${#fields.hasErrors('password')}" th:errors="*{password}" class="errors"></span>
+						<input type="password" th:field="*{empPass}" value="${empPass}" maxlength="8">
+						<span th:if="${#fields.hasErrors('empPass')}" th:errors="*{empPass}" class="errors"></span>
 					</div>
 					<div class="form-row">
 						<input type="submit" value="ログイン" class="btn">

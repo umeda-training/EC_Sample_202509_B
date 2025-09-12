@@ -2,16 +2,18 @@ package jp.ken.interiorShop.domain.EmpRepository;
 
 /*
 松田
-
+*/
 
 import java.util.List;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
 import jp.ken.interiorShop.domain.entity.EmpInfoEntity;
 import jp.ken.interiorShop.domain.mapper.EmpInfoMapper;
 
+@Repository
 public class EmpLoginRepository {
 
 	
@@ -23,7 +25,7 @@ public class EmpLoginRepository {
 	}
 	
 		// 従業員情報検索メソッド(ログイン処理)
-	public EmpInfoEntity getEmp(String EmpId, String pass) throws Exception {
+	public EmpInfoEntity getEmp(String Id, String pass) throws Exception {
 		StringBuilder sb = createCommonSQL();
 		sb.append(" WHERE");
 		sb.append(" emp_id = ?");
@@ -31,7 +33,7 @@ public class EmpLoginRepository {
 		sb.append(" emp_password = ?;");
 		String sql = sb.toString();
 		
-		List<EmpInfoEntity> entityList = jdbcTemplate.query(sql, empInfoMapper, EmpId, pass);
+		List<EmpInfoEntity> entityList = jdbcTemplate.query(sql, empInfoMapper, Id, pass);
 		// 検索結果が1件であればその結果を返す。それ以外はnullを返す
 		if(entityList.size() == 1) {
 			return entityList.getFirst();
@@ -51,11 +53,11 @@ public class EmpLoginRepository {
 		sb.append(" emp_id,");
 		sb.append(" emp_password");
 		sb.append(" FROM");
-		sb.append(" emp");
+		sb.append(" m_employees");
 		
 		return sb;
 	}
 	
 }
 
-*/
+
