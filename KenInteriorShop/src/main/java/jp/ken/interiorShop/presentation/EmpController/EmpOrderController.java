@@ -29,11 +29,17 @@ import jp.ken.interiorShop.presentation.EmpFormModel.EmpOrderFormModel;
 public class EmpOrderController {
 	
 	private EmpOrderService empOrderService;
+	
 	public EmpOrderController(EmpOrderService empOrderService) {
 		this.empOrderService = empOrderService;
 	}
 	
 	
+	/*Get通信
+	 * 画面遷移時、ログイン情報ないときログイン画面へ遷移
+	 * ログインあり・注文ありの場合、注文情報全件表示
+	 * ログインあり・注文なしの場合、エラーメッセージ表示
+	 */
 	@GetMapping(value="/emp/order")
 	public String toEmpOrder(HttpSession session, Model model) throws Exception{
 		
@@ -47,14 +53,22 @@ public class EmpOrderController {
 		}else {
 			//ログイン情報がある場合
 			List<EmpOrderFormModel> orderList = empOrderService.searchOrder();
+			
+			if(orderList.isEmpty()) {
+				model.addAttribute("error", "注文情報がありません。");
+			}
 			//モデルに登録
 			model.addAttribute("order_list", orderList);
 			return "empOrder";
 		}
 	}
 	
-	/* 検索機能	 */
-	@GetMapping(value="/emp/order", params="search")
+	/* Post通信
+	 * ログインチェック
+	 * 検索条件が空の時、全件表示
+	 * 
+	 * 検索機能	 */
+	@PostMapping(value="/emp/order", params="search")
 	public String searchOrder(@RequestParam (required = false) int orderId,
 							  @RequestParam (required = false) String userName,
 							  @RequestParam (required = false) Date orderDate,
@@ -86,7 +100,7 @@ public class EmpOrderController {
 	}
 	
 
-	/** 注文住所変更 */
+	/** 届け先住所変更 */
     @PostMapping(value="emp/order", params="update")
     public String updateOrder(@RequestParam int orderId,
                                 @RequestParam String address,
