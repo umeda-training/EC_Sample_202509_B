@@ -57,6 +57,7 @@ public class UserOrderController {
 		 * 初期値としてログインユーザーの郵便番号と住所を表示させる
 		 * セッションに登録されている会員の住所と郵便番号を表示する
 		 */
+		
 		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
 		userOrderFormModel.setUserPost(userLoginFormModel.getUserPost());
 		userOrderFormModel.setUserAddress(userLoginFormModel.getUserAddress());
