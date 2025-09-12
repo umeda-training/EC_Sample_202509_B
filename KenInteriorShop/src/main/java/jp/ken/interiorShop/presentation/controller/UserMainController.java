@@ -15,13 +15,15 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
+import jp.ken.interiorShop.presentation.formmodel.CartFormModel;
 import jp.ken.interiorShop.presentation.formmodel.ItemModel;
 import jp.ken.interiorShop.presentation.formmodel.UserMainFormModel;
 import jp.ken.interiorShop.service.UserMainService;
 
 //担当者：竹内
 @Controller
-@SessionAttributes({"toDetailItem", "cartItemList"})
+@SessionAttributes({"toDetailItem", "cartItemList", "cartList"})
 public class UserMainController {
 	
 	//商品詳細用のセッションオブジェクトの生成
@@ -42,6 +44,22 @@ public class UserMainController {
 		this.userMainService = userMainService;
 	}
 	
+	/* カート個数計算
+	 * メソッド名：itemSum()
+	 * 引数：List<CartFormModel>型のカートリスト
+	 * 戻り値：String型の個数が表示
+	 * 動作詳細：カートのなかにある個数を計算し、表示
+	 */
+	
+	/*
+	public String itemSum(List<CartFormModel> cartList) {
+		int itemTotal = 0;
+		for(CartFormModel cart : cartList) {
+			itemTotal += cart.getBuyAmount();
+		}
+	}
+	*/
+	
 	/*
 	 * Get通信
 	 * ・メインメニューに飛んだ際は、商品一覧がでている
@@ -50,7 +68,7 @@ public class UserMainController {
 	 */
 	
 	@GetMapping(value = "/user/main")
-	public String toUserMain(Model model) throws SQLException {
+	public String toUserMain(Model model, HttpSession session) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "メインメニュー");
 		
@@ -74,6 +92,12 @@ public class UserMainController {
 		//次月商品リストをモデルに登録
 		model.addAttribute("next_item_list", next_item_list);
 		
+		//カート個数表示用
+		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
+		if(cartList != null && !cartList.isEmpty()) {
+			String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
+			model.addAttribute("cartListNumber", cartListNumber);
+		}
 		return "userMain";
 	}
 	
