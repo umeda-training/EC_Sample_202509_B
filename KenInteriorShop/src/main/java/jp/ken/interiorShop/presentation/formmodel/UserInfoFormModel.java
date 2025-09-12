@@ -3,7 +3,6 @@ package jp.ken.interiorShop.presentation.formmodel;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.Pattern;
-import jp.ken.interiorShop.common.annotation.UniqueEmail;
 import jp.ken.interiorShop.common.validator.groups.ValidGroup1;
 import jp.ken.interiorShop.common.validator.groups.ValidGroup2;
 import lombok.Data;
@@ -51,7 +50,7 @@ public class UserInfoFormModel {
 	// メールアドレス
 	@NotEmpty(message = "メールアドレスは必須です", groups = ValidGroup1.class)
 	@Email(message = "メールアドレスの形式が無効です", groups = ValidGroup2.class)
-	@UniqueEmail(message = "すでに登録済みのメールアドレスです", groups = ValidGroup2.class)
+//	@UniqueEmail(message = "すでに登録済みのメールアドレスです", groups = ValidGroup2.class)
 	private String userMail;
 	
 	// パスワード

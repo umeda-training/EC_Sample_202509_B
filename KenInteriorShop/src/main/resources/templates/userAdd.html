@@ -103,6 +103,7 @@
 					<div class="form-row">
 						<input type="submit" value="登録" class="btn">
 					</div>
+					<span th:text="${error}" class="errors"></span>
 				</form>
 				<br><br>
 				<a th:href="@{/user/login}"><small>前に戻る</small></a>
