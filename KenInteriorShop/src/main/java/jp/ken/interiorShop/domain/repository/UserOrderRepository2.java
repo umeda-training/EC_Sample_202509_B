@@ -3,8 +3,10 @@ package jp.ken.interiorShop.domain.repository;
 import java.sql.SQLException;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 
 import jp.ken.interiorShop.domain.entity.UserOrderEntity;
+import jp.ken.interiorShop.domain.mapper.UserOrderMapper;
 
 /*
  * 作成者：竹内
@@ -12,7 +14,9 @@ import jp.ken.interiorShop.domain.entity.UserOrderEntity;
  */
 public class UserOrderRepository2 {
 private JdbcTemplate jdbcTemplate;
-	
+private RowMapper<UserOrderEntity> userOrderMapper = new UserOrderMapper(); 
+//ここは追加しないとあかん↑↑↑
+
 	public UserOrderRepository2(JdbcTemplate jdbcTemplate) {
 		this.jdbcTemplate = jdbcTemplate;
 	}
@@ -23,7 +27,22 @@ private JdbcTemplate jdbcTemplate;
 		
 		//SQL作成
 		StringBuilder sb = new StringBuilder();
+		//暫定SQL
+		sb.append("SELECT");
+		sb.append(" *");
+		sb.append(" FROM");
+		sb.append(" orders");
+		sb.append(" WHERE");
+		sb.append(" oreder_id =");
+		sb.append("(SELECT MAX");
+		sb.append("(order_id)");
+		sb.append(" FROM");
+		sb.append(" orders");
 		
+		String sql = sb.toString();
+		
+		userOrderEntity = jdbcTemplate.queryForObject(sql, userOrderMapper);
+				
 		return userOrderEntity;
 	}
 }
