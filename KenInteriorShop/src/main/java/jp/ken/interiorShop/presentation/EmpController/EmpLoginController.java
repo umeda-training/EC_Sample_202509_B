@@ -45,7 +45,6 @@ public class EmpLoginController {
 	public String loginMembers(@Validated(ValidGroupOrder.class) @ModelAttribute EmpLoginFormModel loginForm,
 			BindingResult result, Model model) throws Exception {
 
-	
 		if(result.hasErrors()) {
 			return "empLogin";
 		} else {
