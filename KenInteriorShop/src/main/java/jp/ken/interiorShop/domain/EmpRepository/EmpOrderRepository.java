@@ -80,11 +80,13 @@ public class EmpOrderRepository {
     		 sb.append(" AND order_date = ?");
     		 params.add(orderDate);
     	 }
+    	 
+    	 String sql = sb.toString();
     	
     	//SQLクエリを実行して、結果セット（ResultSet）を1行ずつ処理する
          @SuppressWarnings("deprecation")
          List<EmpOrderFormModel> orderList = jdbcTemplate.query(
-        		 sb.toString(),
+        		 sql,
         		 params.toArray(),
         		 (rs, rowNum) -> {
 		         	EmpOrderFormModel order = new EmpOrderFormModel();
