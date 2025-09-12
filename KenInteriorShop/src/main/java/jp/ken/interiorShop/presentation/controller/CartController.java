@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
 import jp.ken.interiorShop.presentation.formmodel.CartFormModel;
+import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
+import jp.ken.interiorShop.presentation.formmodel.UserOrderFormModel;
 
 //内川：途中
 
@@ -41,13 +43,26 @@ public class CartController {
 	
 	@PostMapping(value = "/user/cart")
 	public String toUpdateCart(HttpSession session, Model model) {
-		/*
+		//ログイン情報の取得
+		UserLoginFormModel userLoginFormModel = (UserLoginFormModel) session.getAttribute("UserLoginForm");
+		if(userLoginFormModel == null) {
+			return "redirect:/user/login";
+		}
+		//カートの情報を取得する
 		@SuppressWarnings("unchecked")
-		//ItemModel⇒CartItemModelに変更予定
-		List<ItemModel> cart = (List<ItemModel>) session.getAttribute("cart");
-		*/
+		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
+		if(cartList == null || cartList.isEmpty()) {
+			model.addAttribute("message", "カートは空です");
+			return "cart";
+		}
 		
-		return "cart"; 
+		UserOrderFormModel userOrderFormModel = new UserOrderFormModel();
+		userOrderFormModel.setUserPost(userLoginFormModel.getUserPost());
+		userOrderFormModel.setUserAddress(userLoginFormModel.getUserAddress());
+		
+		model.addAttribute("userOrderFormModel", userOrderFormModel);
+		model.addAttribute("itemList", cartList);
+		return "userOrder"; 
 	}
 
 }

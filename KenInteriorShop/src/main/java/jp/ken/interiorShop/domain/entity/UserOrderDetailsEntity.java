@@ -6,13 +6,16 @@ import lombok.Data;
 @Data
 public class UserOrderDetailsEntity {
 	
-	private int orderDetailId;  //注文詳細ID（DBでオートインクリメント）
+	//注文詳細ID（DBでオートインクリメント）
+	private int orderDetailId;  
 	
-	private int orderId;  //注文ID
+	//注文ID
+	private int orderId;  
 	
-	private String itemCd;  //商品コード
+	//商品コード
+	private String itemCd;  
 	
-	private int quantity;  //注文数
-	
+	//注文数
+	private int quantity;  
 
 }

@@ -21,7 +21,7 @@ public class UserOrderMapper implements RowMapper<UserOrderEntity>{
 		userOrderEntity.setUserName(rs.getString("user_name"));
 		userOrderEntity.setTotal(rs.getInt("total"));
 		userOrderEntity.setUserAddress(rs.getString("user_address"));
-		userOrderEntity.setUserPost(rs.getInt("user_post"));
+		userOrderEntity.setUserPost(rs.getString("user_post"));
 		
 		return userOrderEntity;
 	}	

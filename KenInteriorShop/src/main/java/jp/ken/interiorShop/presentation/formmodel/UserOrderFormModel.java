@@ -34,4 +34,8 @@ public class UserOrderFormModel implements Serializable{
 	//支払方法の情報を取得
 	private String payment;
 	
+	//ログインユーザの情報
+	private String UserId;
+	private String userName;
+	
 }

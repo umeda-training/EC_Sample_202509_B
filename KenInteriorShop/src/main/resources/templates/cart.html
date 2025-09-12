@@ -38,13 +38,12 @@
 										<input type="submit" value="削除" name="delete">
 									</form>	
 								</td>
-								<span th:text="${item.selectItemdetail.itemStock}" style="visibility: hidden;" class="stock"></span> <!-- -->
 							</tr>
 					</th:block>
 			</table>
 			<strong>合計金額：</strong><span id="total">0</span> 円
 			
-			<form th:action="@{/user/order}" method="get">
+			<form th:action="@{/user/cart}" method="post">
 				<input type="submit" value="注文へ進む">
 			</form>
 
@@ -66,12 +65,10 @@
 			const decreaseBtn = row.querySelector(".decrease");
 			const increaseBtn = row.querySelector(".increase");
 			const counterSpan = row.querySelector(".counter");
-			const priceCell = row.querySelector(".price");
-			const stock = row.querySelector(".stock");  
+			const priceCell = row.querySelector(".price"); 
 			
 			if (decreaseBtn && increaseBtn && counterSpan && priceCell) {
 				let count = parseInt(counterSpan.textContent);
-				let stockCoount = parseInt(stock.textContent); 
 				console.log(stockCoount); 
 				const unitPrice = parseInt(priceCell.textContent) / count || 0;
 				
@@ -85,12 +82,10 @@
 				});
 				
 				increaseBtn.addEventListener("click", () => {
-				if(count < stockCoount){  
 					count++;
 					counterSpan.textContent = count;
 					priceCell.textContent = unitPrice * count;
 					updateTotal();
-					}
 				});
 			}
 		});

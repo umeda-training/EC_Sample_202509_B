@@ -1,7 +1,7 @@
 package jp.ken.interiorShop.domain.entity;
 
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 import lombok.Data;
 //担当：内川
@@ -20,10 +20,10 @@ public class UserOrderEntity {
 	private int total;
 	
 	//注文日
-	private LocalDateTime orderDate;
+	private LocalDate orderDate;
 
 	//郵便番号
-    private int userPost;
+    private String userPost;
     
     //住所
     private String userAddress;

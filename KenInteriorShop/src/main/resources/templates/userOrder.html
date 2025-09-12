@@ -21,12 +21,12 @@
 				<div id="form-area">
 					<div class="form-row">
 					<label>代金引換
-						<input type="radio" name="payment" th:field="*{payment}" value="cash">
+						<input type="radio" th:field="*{payment}" value="cash">
 					</label>
 					</div>
 					<div class="form-row">
 					<label>クレジットカード
-						<input type="radio" name="payment" th:field="*{payment}" value="card">
+						<input type="radio" th:field="*{payment}" value="card">
 					</label>
 					</div>
 					<div class="form-row">
@@ -49,7 +49,7 @@
 				</div>
 			
 			<h3>お届け先情報</h3>
-				<div area = "form-area">
+				<div class = "form-area">
 					<div class="form-row">
 						<label for="userPost">郵便番号</label>
 						<input th:field="*{userPost}" >

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpSession;
-import jp.ken.interiorShop.presentation.formmodel.ItemModel;
+import jp.ken.interiorShop.presentation.formmodel.CartFormModel;
 import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 import jp.ken.interiorShop.presentation.formmodel.UserOrderFormModel;
 import jp.ken.interiorShop.service.UserOrderService;
@@ -44,8 +44,7 @@ public class UserOrderController {
 		 * カート情報がない場合、カート画面へリダイレクト
 		 */
 		@SuppressWarnings("unchecked")
-		//ItemModel⇒CartItemModelに変更する予定
-		List<ItemModel> item_list = (List<ItemModel>) session.getAttribute("item_list");
+		List<CartFormModel> item_list = (List<CartFormModel>) session.getAttribute("item_list");
 		if(item_list == null || item_list.isEmpty()) {
 			return "redirect:/user/cart";
 		} 
@@ -61,28 +60,37 @@ public class UserOrderController {
 		model.addAttribute("userOrderFormModel", userOrderFormModel);
 		model.addAttribute("itemList", item_list);
 		
-		return "user/order";
+		return "userOrder";
 	}
 	
 	@PostMapping(value = "/user/order")
-	public String toOrder(@Validated @ModelAttribute UserOrderFormModel userOrderFormModel, BindingResult result, Model model) throws Exception {
+	public String toOrder(@Validated @ModelAttribute UserOrderFormModel userOrderFormModel, BindingResult result, HttpSession session, Model model) throws Exception {
 		
-		
+		//ログイン情報を取得
+		UserLoginFormModel userLoginFormModel = (UserLoginFormModel) session.getAttribute("UserLoginForm");
+		userOrderFormModel.setUserId(userLoginFormModel.getUserId());
+		userOrderFormModel.setUserName(userLoginFormModel.getUserName());
+
+
 		/*
 		 * 入力エラーがある場合、注文画面へ戻る
 		 */
 		if(result.hasErrors()) {
 			return "userOrder";
 		}
-		//代金引換選択→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
-		else if("cash".equals(userOrderFormModel.getPayment())){
+		/*
+		 * 代金引換選択→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
+		 */
+		if("cash".equals(userOrderFormModel.getPayment())){
 			userOrderService.registUserOrder(userOrderFormModel);
-			return "complete";
+			return "complate";
 		} 
-		//カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
+		/*
+		 * カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
+		 */
 		else if("card".equals(userOrderFormModel.getPayment())){
 			userOrderService.registUserOrder(userOrderFormModel);
-			return "complete";
+			return "complate";
 		}
 		return null;	
 	}
