@@ -2,18 +2,51 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>注文完了</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
+<!--　竹内-->
+
 <body>
 	<div id="wrapper">
 		<header>
-		
+			<h1>注文完了(ヘッダーはインサート予定)</h1>
+			<hr>
 		</header>
 		<main>
-		
+			<div class="subTitle">
+				<h2>注文完了</h2>
+			</div>
+			<div>
+				<form th:action="@{/complete}" th:method="post">
+					<p>ご注文ありがとうございます。</p>
+					<div class="text-row">
+						<p>
+							注文日時：
+							<span >コントローラーからLocalDateしてくれ</span>
+						</p>
+						<p>
+							注文ID：
+							<span>コントローラーからOrderモデルの最新の注文IDを取得</span>
+						</p>
+						<p>
+							ご注文商品のお届けまで、今しばらくお待ちください。
+						</p>
+						<p>
+							<input type="submit" name="top" value="トップページへ">
+						</p>
+						<p>
+							<input type="submit" name="logout" value="ログアウト">
+						</p>
+					</div>
+				</form>
+			</div>
 		</main>
-		<footer></footer>
+		<footer>
+			<small>
+				kenインテリア	(インサート予定)
+			</small>
+		</footer>
 	</div>
 </body>
 </html>
