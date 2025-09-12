@@ -68,7 +68,7 @@ public class UserItemController {
 	public String itemDetail(Model model,HttpSession session,HttpServletRequest request) throws SQLException {
 		//メインタイトルテキスト
 		model.addAttribute("headline", "商品詳細");
-		//取得した商品情報格納先
+		//取得したコード検索した商品情報格納先
 		List<ItemModel> toDetailItem = new ArrayList<ItemModel>();
 		
 		//押下した商品コード取得
@@ -79,8 +79,16 @@ public class UserItemController {
 			return "redirect:/userMain";
 		}
 		//カートオブジェクト作成・セッション登録
-		List<CartFormModel> cartList = new ArrayList<CartFormModel>();
+		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
+		if(cartList == null ) {
+			 cartList = new ArrayList<CartFormModel>();
+		}
 		model.addAttribute("cartList", cartList);
+		session.setAttribute("cartList", cartList);
+		
+		//カートの個数を表示させる
+		String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
+		model.addAttribute("cartListNumber", cartListNumber);
 		
 		if(toDetail != null) {
 			//取得した商品コードから商品を検索

@@ -22,13 +22,10 @@
 						商品名：<span th:text="${detailItem.itemName}"></span>
 					</p>
 					<p>
-						<span th:text="${detailItem.itemPrice}"></span>
+						<span th:text="${detailItem.itemPrice}">円</span>
 					</p>
 					<p>
-						<span th:text="${detailItem.releaseDate}"></span>
-					</p>
-					<p>
-						<span th:text="${detailItem.itemCd}"></span>
+						発売日：<span th:text="${detailItem.releaseDate}"></span>
 					</p>
 				</div>
 				<img th:src="@{|/img/${detailItem.itemCd}.png|}" th:alt="${detailItem.itemName}">
