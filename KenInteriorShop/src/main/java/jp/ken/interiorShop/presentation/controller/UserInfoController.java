@@ -158,16 +158,14 @@ public class UserInfoController {
 			return "userInfo";
 		}
 		// 退会処理を行う
-		// SQL-DELETE文を実行
-//		UserLoginFormModel loginForm = (UserLoginFormModel) model.getAttribute("UserLoginForm");
-//		int numberOfRow = userInfoService.updateUser(loginForm);
-		
-//		if(numberOfRow == 0) {
-//			model.addAttribute("error", "退会処理中にエラーが発生しました");
-//			return "userInfo";
-//		}
-		System.out.println("退会処理 (ダミーメッセージ)");
-		// ポップアップウィンドウ表示
+		UserLoginFormModel loginForm = (UserLoginFormModel) model.getAttribute("UserLoginForm");
+		String deleteId = loginForm.getUserId();
+		int numberOfRow = userInfoService.deleteUser(deleteId);
+		if(numberOfRow == 0) {
+			model.addAttribute("error", "退会処理中にエラーが発生しました");
+			return "userInfo";
+		}
+		// ポップアップウィンドウ表示(完了メッセージ)
 		System.setProperty("java.awt.headless", "false");
 		frame.setAlwaysOnTop(true);		//前面に表示させるための処理
 		JOptionPane.showMessageDialog(frame, "退会処理が完了しました。");
