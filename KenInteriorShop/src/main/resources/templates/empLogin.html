@@ -4,7 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="ja">
 <head>
 <meta charset="UTF-8">
-<title>Page Title</title>
+<title>従業員用ログイン画面</title>
 <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css">
 </head>
 <body>
@@ -13,7 +13,7 @@
 		<h1>ログイン画面(従業員)</h1>
 		</header>
 		<main>
-					<div id="form-area">
+			<div id="form-area">
 				<form th:action="@{/emp/login}" th:object="${empLoginFormModel}" method="post">
 					
 					<div class="form-row">
@@ -29,9 +29,7 @@
 					<div class="form-row">
 						<input type="submit" value="ログイン" class="btn">
 					</div>
-					<div class="form-row">
-						<span class="errors" th:text="${errorMessage}"></span>
-					</div>
+						<span th:text="${errors}" class="errors"></span>
 				</form>
 			</div>
 		</main>
