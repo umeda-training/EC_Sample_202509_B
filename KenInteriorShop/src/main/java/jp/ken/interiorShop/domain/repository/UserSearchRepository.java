@@ -41,20 +41,31 @@ public class UserSearchRepository {
 	}
 	
 	// 会員情報検索メソッド(メールアドレス重複確認)
-	public UserInfoEntity getUserByMail(String mail) throws Exception {
+//	public UserInfoEntity getUserByMail(String mail) throws Exception {
+//		StringBuilder sb = createCommonSQL();
+//		sb.append(" WHERE");
+//		sb.append(" user_mail = ?");
+//		String sql = sb.toString();
+//		
+//		List<UserInfoEntity> entityList =  jdbcTemplate.query(sql, userInfoMapper, mail);
+//		// 検索結果が1件であればその結果を返す。それ以外はnullを返す
+//		if(entityList.size() == 1) {
+//			return entityList.getFirst();
+//		} else {
+//			return null;
+//		}
+//	}
+	
+	// 会員情報検索メソッド(メールアドレス重複確認)
+	public int chkUserByMail(String mail) throws Exception {
 		StringBuilder sb = createCommonSQL();
 		sb.append(" WHERE");
 		sb.append(" user_mail = ?");
 		String sql = sb.toString();
 		
 		List<UserInfoEntity> entityList =  jdbcTemplate.query(sql, userInfoMapper, mail);
-		// 検索結果が1件であればその結果を返す。それ以外はnullを返す
-		if(entityList.size() == 1) {
-			return entityList.getFirst();
-		} else {
-			return null;
-		}
-		
+		// 検索結果の件数を返す
+		return entityList.size();
 	}
 	
 	// 検索SQL共通部分作成

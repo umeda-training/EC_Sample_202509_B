@@ -11,6 +11,11 @@
 		<main>
 			<div id="form-area">
 				<form th:action="@{/user/info}" th:object="${userInfoFormModel}" method="post">
+					<!-- エラーメッセージ/情報メッセージ -->
+					<span th:text="${error}" class="errors"></span>
+					<span th:text="${infoMsg}"></span>
+					
+					<!-- 入力フォーム -->
 					<div class="form-row">
 						<div class="title"><label for="name">お名前</label></div>
 						<div class="content">
@@ -76,6 +81,7 @@
 						<div class="content">
 							<input th:field="*{userMail}" th:value="${userMail}" size="25" placeholder="ken-furniture@xxxxx.co.jp">
 							<span th:if="${#fields.hasErrors('userMail')}" th:errors="*{userMail}" class="errors"></span>
+							<span th:text="${mailError}" class="errors"></span>
 						</div>
 					</div>
 
@@ -87,11 +93,14 @@
 							<span th:if="${#fields.hasErrors('userPass')}" th:errors="*{userPass}" class="errors"></span>
 						</div>
 					</div>
-					
 
 					<div class="form-row">
-						<input type="submit" value="確認用ダミー" class="btn">
+						<input type="submit" value="保存" class="btn">
 					</div>
+				</form>
+				<br>
+				<form th:action="@{/user/info/delete}" method="post">
+					<input type="submit" value="退会" class="btn">
 				</form>
 			</div>
 		</main>

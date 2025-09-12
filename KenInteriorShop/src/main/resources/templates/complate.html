@@ -23,11 +23,11 @@
 					<div class="text-row">
 						<p>
 							注文日時：
-							<span >コントローラーからLocalDateしてくれ</span>
+							<span th:text="${orderTime}"></span>
 						</p>
 						<p>
 							注文ID：
-							<span>コントローラーからOrderモデルの最新の注文IDを取得</span>
+							<span th:if="${order_id != null}" th:text="${order_id}">コントローラーからOrderモデルの最新の注文IDを取得</span>
 						</p>
 						<p>
 							ご注文商品のお届けまで、今しばらくお待ちください。
