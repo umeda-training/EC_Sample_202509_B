@@ -2,7 +2,7 @@ package jp.ken.interiorShop.domain.entity;
 
 /*
  松田
-
+*/
 
 import lombok.Data;
 
@@ -23,4 +23,4 @@ public class EmpInfoEntity {
 
 }
 
-*/
+

@@ -1,8 +1,7 @@
 package jp.ken.interiorShop.EmpService;
 /*
 松田
-
-
+*/
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -14,11 +13,11 @@ import jp.ken.interiorShop.presentation.EmpFormModel.EmpLoginFormModel;
 @Service
 public class EmpLoginService {
 	
-	private EmpLoginRepository EmpLoginRepository;
+	private EmpLoginRepository empLoginRepository;
 	private ModelMapper modelMapper;
 	
-	public EmpLoginService(EmpLoginRepository EmpLoginRepository, ModelMapper modelMapper) {
-		this.EmpLoginRepository = EmpLoginRepository;
+	public EmpLoginService(EmpLoginRepository empLoginRepository, ModelMapper modelMapper) {
+		this.empLoginRepository = empLoginRepository;
 		this.modelMapper = modelMapper;
 	}
 	
@@ -28,10 +27,10 @@ public class EmpLoginService {
 		String Id = form.getEmpId();
 		String pass = form.getEmpPass();
 		
-		entity = EmpLoginRepository.getEmp(Id, pass);
+		entity = empLoginRepository.getEmp(Id, pass);
 		return modelMapper.map(entity, EmpLoginFormModel.class);
 	}
 	
 }
 
-*/
+

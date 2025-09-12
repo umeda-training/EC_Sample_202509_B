@@ -2,7 +2,7 @@ package jp.ken.interiorShop.presentation.EmpController;
 
 /*
  松田
-
+*/
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -11,7 +11,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
@@ -20,7 +19,6 @@ import jp.ken.interiorShop.common.validator.groups.ValidGroupOrder;
 import jp.ken.interiorShop.presentation.EmpFormModel.EmpLoginFormModel;
 
 @Controller
-@RequestMapping(value="/emp/Login")
 @SessionAttributes("EmpLoginForm")
 public class EmpLoginController {
 	
@@ -35,7 +33,7 @@ public class EmpLoginController {
 		return new EmpLoginFormModel();
 	}
 	
-	@GetMapping
+	@GetMapping(value = "/emp/login")
 	public String toEmpLogin(SessionStatus status, Model model) {
 		EmpLoginFormModel form = new EmpLoginFormModel();
 		model.addAttribute("empLoginFormModel", form);
@@ -43,7 +41,7 @@ public class EmpLoginController {
 	}
 	
 	
-	@PostMapping
+	@PostMapping(value = "/emp/login")
 	public String loginMembers(@Validated(ValidGroupOrder.class) @ModelAttribute EmpLoginFormModel loginForm,
 			BindingResult result, Model model) throws Exception {
 
@@ -72,4 +70,4 @@ public class EmpLoginController {
 		
 }
 
- */
+ 

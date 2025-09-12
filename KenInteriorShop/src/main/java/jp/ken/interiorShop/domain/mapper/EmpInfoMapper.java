@@ -2,7 +2,7 @@ package jp.ken.interiorShop.domain.mapper;
 
 /*
 松田
-
+*/
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -29,4 +29,4 @@ public class EmpInfoMapper implements RowMapper<EmpInfoEntity> {
 }
 
 
-*/
+
