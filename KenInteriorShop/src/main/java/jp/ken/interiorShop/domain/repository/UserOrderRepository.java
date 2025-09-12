@@ -17,7 +17,7 @@ public class UserOrderRepository {
 	}
 	
 	//ordersテーブルに注文登録
-	public void insertOrder(UserOrderEntity userOrderEntity) throws Exception{
+	public int insertOrder(UserOrderEntity userOrderEntity) throws Exception{
 		
 		StringBuilder sb = new StringBuilder();
 		sb.append("INSERT INTO orders");
@@ -36,6 +36,11 @@ public class UserOrderRepository {
 		jdbcTemplate.update(sql, 
 				userOrderEntity.getUserId(), userOrderEntity.getUserName(), userOrderEntity.getTotal(), 
 				userOrderEntity.getOrderDate(), userOrderEntity.getUserPost(), userOrderEntity.getUserAddress());
+		
+		String getOrderId = "SELECT LAST_INSERT_ID()";
+		Integer orderId = jdbcTemplate.queryForObject(getOrderId, Integer.class);
+		
+		return orderId;
 
 	}
 	

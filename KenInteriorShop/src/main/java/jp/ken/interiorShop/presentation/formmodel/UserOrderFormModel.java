@@ -38,4 +38,9 @@ public class UserOrderFormModel implements Serializable{
 	private String UserId;
 	private String userName;
 	
+	//消すかも
+	//カート情報の取得
+	//private List<CartFormModel> cartFormModel;
+	
+	
 }

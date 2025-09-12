@@ -17,7 +17,11 @@ import jp.ken.interiorShop.presentation.formmodel.UserLoginFormModel;
 import jp.ken.interiorShop.presentation.formmodel.UserOrderFormModel;
 import jp.ken.interiorShop.service.UserOrderService;
 
-//担当：内川
+/*
+ * 担当：内川
+ * 9/12
+ */
+
 
 @Controller
 public class UserOrderController {
@@ -78,18 +82,24 @@ public class UserOrderController {
 		if(result.hasErrors()) {
 			return "userOrder";
 		}
+		//セッションからカート情報を取得する
+		@SuppressWarnings("unchecked")
+		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
+		
 		/*
 		 * 代金引換選択→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
 		 */
 		if("cash".equals(userOrderFormModel.getPayment())){
-			userOrderService.registUserOrder(userOrderFormModel);
+			userOrderService.registUserOrder(userOrderFormModel, cartList);
+			
 			return "complate";
 		} 
 		/*
 		 * カードを選択→カード情報の入力を確認→注文確定（DBに情報登録）→注文詳細テーブルに情報登録
 		 */
 		else if("card".equals(userOrderFormModel.getPayment())){
-			userOrderService.registUserOrder(userOrderFormModel);
+			userOrderService.registUserOrder(userOrderFormModel, cartList);
+			
 			return "complate";
 		}
 		return null;	
