@@ -61,8 +61,11 @@ public class EmpOrderRepository {
      public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
     	 StringBuilder sb = new StringBuilder();
     	 sb.append("SELECT order_id, user_name, order_address, order_date FROM orders WHERE 1=1");
+    	 
+    	 //プレースホルダ用のリストを準備
     	 List<Object> params = new ArrayList<>();
     	 
+    	 //入力された注文IDがnullでなければSQLに条件追加
     	 if(orderId != 0) {
     		 sb.append(" AND order_id = ?");
     		 params.add(orderId);
