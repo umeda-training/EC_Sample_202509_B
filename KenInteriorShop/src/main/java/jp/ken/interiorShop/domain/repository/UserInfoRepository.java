@@ -16,6 +16,7 @@ public class UserInfoRepository {
 		this.jdbcTemplate = jdbcTemplate;
 	}
 	
+	// 会員テーブル更新
 	public int updateUser(UserInfoEntity userinfoEntity) throws Exception {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE");
@@ -38,6 +39,21 @@ public class UserInfoRepository {
 		
 		int numberOfRow = 0;
 		numberOfRow = jdbcTemplate.update(sql, parameters);
+		
+		return numberOfRow;
+	}
+	
+	// 会員テーブル削除(会員ID指定)
+	public int deleteUser(String id) throws Exception {
+		StringBuilder sb = new StringBuilder();
+		sb.append("DELETE FROM");
+		sb.append(" users");
+		sb.append(" WHERE");
+		sb.append(" user_id = ?");
+		String sql = sb.toString();
+		
+		int numberOfRow = 0;
+		numberOfRow = jdbcTemplate.update(sql, id);
 		
 		return numberOfRow;
 	}
