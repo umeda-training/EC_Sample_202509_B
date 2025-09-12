@@ -33,6 +33,15 @@ public class UserInfoService {
 		return resultRow;
 	}
 	
+	// 会員情報 削除
+	@Transactional(rollbackFor = Exception.class)
+	public int deleteUser(String id) throws Exception {
+		
+		int resultRow = userInfoRepository.deleteUser(id);
+		
+		return resultRow;
+	}
+	
 	private UserInfoEntity convert(UserInfoFormModel form) {
 		
 		UserInfoEntity entity = modelMapper.map(form, UserInfoEntity.class);
