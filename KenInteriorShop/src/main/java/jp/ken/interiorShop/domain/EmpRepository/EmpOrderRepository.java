@@ -26,6 +26,7 @@ public class EmpOrderRepository {
     public List<EmpOrderFormModel> getOrderList() {
         String sql = "SELECT order_id, user_name, order_address, order_date FROM orders ORDER BY order_id";
 
+        //SQLクエリを実行して、結果セット（ResultSet）を1行ずつ処理する
         List<EmpOrderFormModel> orderList = jdbcTemplate.query(sql, (rs, rowNum) -> {
         	EmpOrderFormModel order = new EmpOrderFormModel();
             order.setOrderId(rs.getInt("order_id"));
@@ -53,30 +54,31 @@ public class EmpOrderRepository {
     }
     
     /*
-     * 検索されあ注文一覧を取得する
+     * 検索された注文一覧を取得する
      */
-    /*    public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
-    	String sql = "SELECT order_id, user_name, order_date FROM orders ORDER BY order_id";
-    	
-    	
-    	
-    	// 注文ごとの商品明細を追加で取得してセット
-        for (EmpOrderFormModel order : orderList) {
-            List<EmpOrderDetailsFormModel> details = jdbcTemplate.query(
-                "SELECT item_cd, quantity FROM order_details WHERE order_id = ?",
-                (rs, rowNum) -> {
-                	EmpOrderDetailsFormModel detail = new EmpOrderDetailsFormModel();
-                    detail.setItemCd(rs.getString("item_cd"));
-                    detail.setQuantity(rs.getInt("quantity"));
-                    return detail;
-                },
-                order.getOrderId()
-            );
-            order.setOrder_details(details);
-        }
-        return orderList;
-    }
-*/
+//     public List<EmpOrderFormModel> getOrderList(int orderId, String userName, Date orderDate){
+//    	 StringBuilder sb = new StringBuilder();
+//    	 sb.append("SELECT order_id, user_name, order_date FROM orders WHERE 1=1");
+//    	
+//    	
+//    	
+//    	// 注文ごとの商品明細を追加で取得してセット
+//        for (EmpOrderFormModel order : orderList) {
+//            List<EmpOrderDetailsFormModel> details = jdbcTemplate.query(
+//                "SELECT item_cd, quantity FROM order_details WHERE order_id = ?",
+//                (rs, rowNum) -> {
+//                	EmpOrderDetailsFormModel detail = new EmpOrderDetailsFormModel();
+//                    detail.setItemCd(rs.getString("item_cd"));
+//                    detail.setQuantity(rs.getInt("quantity"));
+//                    return detail;
+//                },
+//                order.getOrderId()
+//            );
+//            order.setOrder_details(details);
+//        }
+//        return orderList;
+//    }
+
 
 
     /**

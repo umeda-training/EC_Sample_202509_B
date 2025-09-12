@@ -25,9 +25,9 @@ public class EmpOrderService {
 	}
 	
 	//注文一覧検索
-		public List<EmpOrderFormModel> searchOrder(int orderId, String userName, Date orderDate) throws Exception{
-			return empOrderRepository.getOrderList();
-		}
+	public List<EmpOrderFormModel> searchOrder(int orderId, String userName, Date orderDate) throws Exception{
+		return empOrderRepository.getOrderList();
+	}
 	
 	//住所変更
 	public void updateOrder(int orderId, String newAddress) throws Exception{
