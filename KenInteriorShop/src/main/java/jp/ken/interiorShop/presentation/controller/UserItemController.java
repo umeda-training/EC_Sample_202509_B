@@ -57,6 +57,22 @@ public class UserItemController {
 		return numberList;
 	}
 	
+	/* カート個数計算
+	 * メソッド名：itemSum()
+	 * 引数：List<CartFormModel>型のカートリスト
+	 * 戻り値：String型の個数が表示
+	 * 動作詳細：カートのなかにある個数を計算し、表示
+	 */
+	
+	public String itemSum(List<CartFormModel> cartList) {
+		int itemTotal = 0;
+		for(CartFormModel cart : cartList) {
+			itemTotal += cart.getBuyAmount();
+		}
+		String message = "現在のカート個数：" + itemTotal;
+		return message;
+	}
+	
 	/* Get通信
 	 * メソッド名：()
 	 * 引数：＊＊
@@ -86,9 +102,11 @@ public class UserItemController {
 		model.addAttribute("cartList", cartList);
 		session.setAttribute("cartList", cartList);
 		
-		//カートの個数を表示させる
-		String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
-		model.addAttribute("cartListNumber", cartListNumber);
+		//カート個数表示用
+		if(cartList != null && !cartList.isEmpty()) {
+			String cartListNumber = itemSum(cartList);
+			model.addAttribute("cartListNumber", cartListNumber);
+		}
 		
 		if(toDetail != null) {
 			//取得した商品コードから商品を検索
@@ -155,15 +173,15 @@ public class UserItemController {
 		model.addAttribute("detailItem", detailItem);
 		model.addAttribute("stockList", getNumberList(1, detailItem.getItemStock()));
 		
-		//カートの個数を表示させる
-		String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
-		model.addAttribute("cartListNumber", cartListNumber);
+		if(cartList != null && !cartList.isEmpty()) {
+			String cartListNumber = itemSum(cartList);
+			model.addAttribute("cartListNumber", cartListNumber);
+		}
 		return "userItem";
 	}
 	
 	@PostMapping(value ="/user/item", params = "back")
 	public String toBack(Model model,HttpSession session) {
-		System.out.println("前に戻る");
 		model.addAttribute("cartList", session.getAttribute("cartList"));
 		return "redirect:/user/main";
 	}
@@ -171,7 +189,6 @@ public class UserItemController {
 	@PostMapping(value ="/user/item", params = "check")
 	public String toCart(Model model,HttpSession session) {
 		model.addAttribute("cartList", session.getAttribute("cartList"));
-		System.out.println("カートへ");
 		return "cart";
 	}
 }

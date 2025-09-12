@@ -1,7 +1,6 @@
 package jp.ken.interiorShop.presentation.controller;
 
 import java.sql.SQLException;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -51,14 +50,14 @@ public class UserMainController {
 	 * 動作詳細：カートのなかにある個数を計算し、表示
 	 */
 	
-	/*
 	public String itemSum(List<CartFormModel> cartList) {
 		int itemTotal = 0;
 		for(CartFormModel cart : cartList) {
 			itemTotal += cart.getBuyAmount();
 		}
+		String message = "現在のカート個数：" + itemTotal;
+		return message;
 	}
-	*/
 	
 	/*
 	 * Get通信
@@ -81,7 +80,7 @@ public class UserMainController {
 		//商品リストをモデルに登録
 		model.addAttribute("item_list", item_list);
 		
-		
+	/*	
 		//次月発売予定の商品の閲覧用
 		
 		//次月用のリスト作成
@@ -91,11 +90,12 @@ public class UserMainController {
 		//next_item_list = userMainService.searchNextItems(next_month);
 		//次月商品リストをモデルに登録
 		model.addAttribute("next_item_list", next_item_list);
+	*/
 		
 		//カート個数表示用
 		List<CartFormModel> cartList = (List<CartFormModel>) session.getAttribute("cartList");
 		if(cartList != null && !cartList.isEmpty()) {
-			String cartListNumber = "現在のカート個数：" + Integer.toString(cartList.size());
+			String cartListNumber = itemSum(cartList);
 			model.addAttribute("cartListNumber", cartListNumber);
 		}
 		return "userMain";

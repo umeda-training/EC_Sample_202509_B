@@ -31,10 +31,11 @@
 				<img th:src="@{|/img/${detailItem.itemCd}.png|}" th:alt="${detailItem.itemName}">
 				<p>
 					在庫数：
-					<select name="selectStock" th:field="*{buyAmount}">
+					<select th:if="${detailItem.itemStock > 0}" name="selectStock" th:field="*{buyAmount}">
 						<option th:each="stock : ${stockList}" th:value="${stock.data}" th:text="${stock.label}">
 						</option>
 					</select>
+					<span th:if="${detailItem.itemStock <= 0}" style="color: red;">在庫切れ</span>
 				</p>
 				<input type="submit" name="cart" value="カートに追加">
 				<input type="hidden" name="select" th:value="${detailItem.itemCd}">
